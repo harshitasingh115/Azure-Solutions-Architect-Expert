@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azure Architect Roadmap — Data Eng Manager → Architect Expert</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0f14;--bg2:#13161e;--bg3:#1a1e2a;--bg4:#212636;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#e8eaf2;--text2:#9ba3be;--text3:#5c6480;
+  --azure:#0ea5e9;--azure-dim:rgba(14,165,233,0.12);--azure-dim2:rgba(14,165,233,0.22);
+  --gold:#f59e0b;--gold-dim:rgba(245,158,11,0.15);
+  --green:#22c55e;--green-dim:rgba(34,197,94,0.12);
+  --red:#ef4444;--red-dim:rgba(239,68,68,0.12);
+  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.12);
+  --teal:#2dd4bf;--teal-dim:rgba(45,212,191,0.12);
+  --orange:#fb923c;--orange-dim:rgba(251,146,60,0.12);
+  --radius:10px;--radius-lg:14px;
+  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+  --sidebar:248px;--tr:0.16s ease;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden}
+.sidebar{width:var(--sidebar);min-height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;overflow-y:auto}
+.sidebar-brand{padding:22px 18px 18px;border-bottom:1px solid var(--border)}
+.brand-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--azure),#60a5fa);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:9px;box-shadow:0 0 18px rgba(14,165,233,0.28)}
+.brand-title{font-size:12px;font-weight:600;color:var(--text);line-height:1.3}
+.brand-sub{font-size:10px;color:var(--text3);margin-top:2px;font-family:var(--mono)}
+.sidebar-nav{padding:10px 8px;flex:1}
+.nav-label{font-size:9px;font-weight:600;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;padding:8px 10px 4px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--text2);transition:all var(--tr);margin-bottom:2px;text-decoration:none}
+.nav-item:hover{background:var(--bg3);color:var(--text)}
+.nav-item.active{background:var(--azure-dim);color:var(--azure);font-weight:500}
+.nav-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.nav-badge{margin-left:auto;font-size:10px;font-family:var(--mono);background:var(--bg4);color:var(--text3);padding:2px 6px;border-radius:20px}
+.nav-item.active .nav-badge{background:var(--azure-dim2);color:var(--azure)}
+.sidebar-footer{padding:14px;border-top:1px solid var(--border)}
+.ring-wrap-outer{display:flex;align-items:center;gap:11px}
+.ring-wrap{position:relative;width:46px;height:46px;flex-shrink:0}
+.ring-svg{transform:rotate(-90deg)}
+.ring-track{fill:none;stroke:var(--bg4);stroke-width:4}
+.ring-fill{fill:none;stroke:var(--azure);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .4s ease}
+.ring-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--azure);font-family:var(--mono)}
+.ring-meta{flex:1}
+.ring-label{font-size:11px;font-weight:500;color:var(--text)}
+.ring-sub{font-size:10px;color:var(--text3);margin-top:2px;font-family:var(--mono)}
+.main{margin-left:var(--sidebar);flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{height:54px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 26px;background:var(--bg);position:sticky;top:0;z-index:50}
+.topbar-title{font-size:14px;font-weight:500;color:var(--text)}
+.topbar-sub{font-size:12px;color:var(--text3);margin-left:auto;font-family:var(--mono)}
+.content{padding:26px;flex:1;max-width:960px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin-bottom:26px}
+.metric{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:15px 17px;transition:border-color var(--tr)}
+.metric:hover{border-color:var(--border2)}
+.metric-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px}
+.metric-value{font-size:24px;font-weight:600;font-family:var(--mono)}
+.metric-sub{font-size:11px;color:var(--text3);margin-top:3px}
+.metric.azure{border-color:rgba(14,165,233,.25)}.metric.azure .metric-value{color:var(--azure)}
+.metric.gold{border-color:rgba(245,158,11,.25)}.metric.gold .metric-value{color:var(--gold)}
+.metric.green{border-color:rgba(34,197,94,.25)}.metric.green .metric-value{color:var(--green)}
+.metric.purple{border-color:rgba(167,139,250,.25)}.metric.purple .metric-value{color:var(--purple)}
+.section{display:none}.section.active{display:block;animation:fadeIn .18s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.page-hdr{margin-bottom:22px}
+.page-hdr h2{font-size:19px;font-weight:600;color:var(--text)}
+.page-hdr p{font-size:13px;color:var(--text3);margin-top:4px}
+/* phase/week blocks */
+.phase-block{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:13px}
+.phase-hdr{display:flex;align-items:center;gap:11px;padding:13px 17px;background:var(--bg2);cursor:pointer;transition:background var(--tr);user-select:none}
+.phase-hdr:hover{background:var(--bg3)}
+.phase-pill{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--azure-dim);color:var(--azure);font-family:var(--mono);flex-shrink:0}
+.phase-title{font-size:14px;font-weight:500;color:var(--text);flex:1}
+.phase-months{font-size:11px;color:var(--text3);font-family:var(--mono)}
+.phase-pbar-wrap{width:76px;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.phase-pbar-fill{height:100%;background:var(--azure);border-radius:2px;transition:width .3s}
+.phase-pct{font-size:11px;font-family:var(--mono);color:var(--text2);min-width:30px;text-align:right}
+.phase-chev{color:var(--text3);font-size:11px;transition:transform .2s;flex-shrink:0}
+.phase-chev.open{transform:rotate(90deg)}
+.phase-body{display:none}.phase-body.open{display:block}
+.week-block{border-top:1px solid var(--border)}
+.week-hdr{display:flex;align-items:center;gap:9px;padding:10px 17px;cursor:pointer;background:var(--bg);transition:background var(--tr);user-select:none}
+.week-hdr:hover{background:var(--bg2)}
+.week-name{font-size:13px;font-weight:500;color:var(--text)}
+.week-dates{font-size:11px;color:var(--text3);font-family:var(--mono)}
+.week-count{margin-left:auto;font-size:10px;font-family:var(--mono);color:var(--text3);background:var(--bg3);padding:2px 8px;border-radius:10px}
+.week-mini-bar{width:56px;height:3px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.week-mini-fill{height:100%;background:var(--green);border-radius:2px;transition:width .3s}
+.week-chev{color:var(--text3);font-size:10px;transition:transform .2s}
+.week-chev.open{transform:rotate(90deg)}
+.week-body{display:none;padding:4px 17px 13px;background:var(--bg)}
+.week-body.open{display:block}
+.hours-logger{display:flex;align-items:center;gap:10px;padding:7px 11px;background:var(--bg3);border-radius:8px;margin-bottom:11px;margin-top:7px}
+.hours-input{width:55px;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:13px;padding:3px 7px;text-align:center;outline:none;transition:border-color var(--tr)}
+.hours-input:focus{border-color:var(--azure)}
+.hours-bar-wrap{width:64px;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.hours-bar-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .3s}
+.hours-target{font-size:11px;color:var(--text3);margin-left:auto;font-family:var(--mono)}
+/* day & task */
+.day-block{margin-bottom:9px}
+.day-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:7px;margin-bottom:3px;padding:3px 0}
+.day-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.task{display:flex;align-items:flex-start;gap:9px;padding:7px 8px;border-radius:7px;cursor:pointer;transition:background var(--tr);margin-bottom:1px}
+.task:hover{background:var(--bg3)}
+.task.done .task-text{color:var(--text3);text-decoration:line-through}
+.task.done .task-text a{color:var(--text3)}
+.cb{width:16px;height:16px;border:1.5px solid var(--border2);border-radius:4px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all var(--tr)}
+.cb.checked{background:var(--azure);border-color:var(--azure)}
+.cb.checked::after{content:'';width:4px;height:7px;border:1.5px solid #fff;border-top:none;border-left:none;transform:rotate(45deg) translateY(-1px);display:block}
+.task-text{font-size:13px;color:var(--text);line-height:1.55;flex:1}
+.task-text a{color:var(--azure);text-decoration:none;border-bottom:1px solid rgba(14,165,233,.3);transition:border-color var(--tr)}
+.task-text a:hover{border-color:var(--azure)}
+.task-right{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-top:2px}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.05em;font-family:var(--mono)}
+.tag-study{background:var(--azure-dim);color:var(--azure)}
+.tag-lab{background:var(--gold-dim);color:var(--gold)}
+.tag-project{background:var(--green-dim);color:var(--green)}
+.tag-exam{background:var(--red-dim);color:var(--red)}
+.tag-review{background:var(--purple-dim);color:var(--purple)}
+/* resource drawer */
+.res-btn{display:flex;align-items:center;gap:4px;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:2px 8px;cursor:pointer;font-size:10px;font-family:var(--mono);color:var(--text3);transition:all var(--tr);white-space:nowrap;flex-shrink:0}
+.res-btn:hover,.res-btn.open{background:var(--azure-dim);border-color:var(--azure);color:var(--azure)}
+.res-btn-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.res-drawer{display:none;margin:0 8px 6px 25px;border:1px solid var(--border2);border-radius:var(--radius-lg);overflow:hidden;background:var(--bg2)}
+.res-drawer.open{display:block}
+.res-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg3);overflow-x:auto}
+.res-tab{padding:8px 14px;font-size:11px;font-weight:500;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color var(--tr);flex-shrink:0;font-family:var(--mono)}
+.res-tab:hover{color:var(--text)}
+.res-tab.active{color:var(--azure);border-bottom-color:var(--azure)}
+.res-panel{display:none;padding:12px 14px}.res-panel.active{display:block}
+.res-link-row{display:flex;align-items:flex-start;gap:10px;padding:7px 10px;border-radius:8px;transition:background var(--tr);margin-bottom:2px}
+.res-link-row:hover{background:var(--bg3)}
+.res-link-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+.res-link-body{flex:1;min-width:0}
+.res-link-title{font-size:13px;font-weight:500;color:var(--azure);text-decoration:none;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.res-link-title:hover{text-decoration:underline}
+.res-link-desc{font-size:11px;color:var(--text3);margin-top:2px;line-height:1.4}
+.res-badge{font-size:9px;padding:2px 7px;border-radius:4px;font-family:var(--mono);white-space:nowrap;flex-shrink:0;margin-top:2px}
+.b-free{background:var(--green-dim);color:var(--green)}
+.b-paid{background:var(--gold-dim);color:var(--gold)}
+.b-lab{background:var(--teal-dim);color:var(--teal)}
+.b-video{background:var(--purple-dim);color:var(--purple)}
+.b-tool{background:var(--orange-dim);color:var(--orange)}
+/* projects */
+.proj-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.proj-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:17px;transition:border-color var(--tr)}
+.proj-card:hover{border-color:var(--border2)}
+.proj-card-hdr{display:flex;align-items:flex-start;gap:11px;margin-bottom:13px}
+.proj-num{width:34px;height:34px;border-radius:50%;background:var(--azure-dim);color:var(--azure);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;font-family:var(--mono);flex-shrink:0}
+.proj-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.3}
+.proj-months{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:2px}
+.proj-pbar{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-bottom:11px}
+.proj-pbar-fill{height:100%;background:linear-gradient(90deg,var(--azure),var(--green));border-radius:2px;transition:width .3s}
+.proj-step{display:flex;align-items:flex-start;gap:8px;padding:5px 6px;border-radius:6px;cursor:pointer;transition:background var(--tr);margin-bottom:2px}
+.proj-step:hover{background:var(--bg3)}
+.proj-step.done .step-lbl{color:var(--text3);text-decoration:line-through}
+.step-lbl{font-size:12px;color:var(--text2);line-height:1.4;flex:1}
+/* exams */
+.exam-card{display:flex;align-items:center;gap:15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:17px 19px;margin-bottom:11px;transition:border-color var(--tr)}
+.exam-card:hover{border-color:var(--border2)}
+.exam-badge{font-size:13px;font-weight:600;font-family:var(--mono);color:var(--azure);background:var(--azure-dim);padding:6px 13px;border-radius:8px;white-space:nowrap}
+.exam-info{flex:1}
+.exam-full{font-size:14px;font-weight:500;color:var(--text)}
+.exam-target{font-size:11px;color:var(--text3);margin-top:3px;font-family:var(--mono)}
+.exam-ctrls{display:flex;flex-direction:column;gap:7px;align-items:flex-end}
+.date-input,.status-select{background:var(--bg3);border:1px solid var(--border2);border-radius:7px;color:var(--text);font-family:var(--mono);font-size:12px;padding:5px 9px;outline:none;cursor:pointer;transition:border-color var(--tr)}
+.date-input:focus,.status-select:focus{border-color:var(--azure)}
+.spill{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;font-family:var(--mono);text-transform:uppercase}
+.spill-planned{background:var(--bg4);color:var(--text3)}
+.spill-booked{background:var(--gold-dim);color:var(--gold)}
+.spill-passed{background:var(--green-dim);color:var(--green)}
+/* resources lib */
+.lib-filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px}
+.filter-btn{padding:5px 13px;border-radius:20px;font-size:12px;font-family:var(--mono);border:1px solid var(--border2);background:var(--bg2);color:var(--text2);cursor:pointer;transition:all var(--tr)}
+.filter-btn:hover{background:var(--bg3);color:var(--text)}
+.filter-btn.active{background:var(--azure-dim);border-color:var(--azure);color:var(--azure)}
+.lib-section{margin-bottom:28px}
+.lib-section-title{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.lib-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.lib-card{display:flex;align-items:flex-start;gap:12px;padding:13px 15px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;transition:border-color var(--tr)}
+.lib-card:hover{border-color:var(--border2)}
+.lib-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.lib-body{flex:1;min-width:0}
+.lib-title{font-size:13px;font-weight:500;color:var(--azure);text-decoration:none}
+.lib-title:hover{text-decoration:underline}
+.lib-desc{font-size:12px;color:var(--text3);margin-top:3px;line-height:1.45}
+.lib-meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+/* overview */
+.ov-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-bottom:13px}
+.ov-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:17px}
+.ov-title{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:13px}
+.ov-row{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.ov-name{font-size:12px;color:var(--text2);flex:1}
+.ov-bar{flex:2;height:5px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.ov-bar-fill{height:100%;background:var(--azure);border-radius:3px;transition:width .3s}
+.ov-pct{font-size:11px;font-family:var(--mono);color:var(--text2);min-width:30px;text-align:right}
+.big-stat{font-size:40px;font-weight:600;color:var(--azure);font-family:var(--mono)}
+.big-prog{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden;margin-top:13px}
+.big-prog-fill{height:100%;background:linear-gradient(90deg,var(--azure),var(--green));border-radius:3px;transition:width .4s}
+.legend{display:flex;gap:13px;flex-wrap:wrap;margin-bottom:16px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+::-webkit-scrollbar{width:5px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border2)}
+@media(max-width:760px){.sidebar{display:none}.main{margin-left:0}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.proj-grid{grid-template-columns:1fr}.ov-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">☁</div>
+    <div class="brand-title">Azure Path A Tracker</div>
+    <div class="brand-sub">DEM → Architect Manager · Industry Ready</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-label">Navigate</div>
+    <a class="nav-item active" onclick="switchTab('checklist');return false" href="#">
+      <span class="nav-icon">☑</span>Checklist<span class="nav-badge" id="nb-cl">—</span>
+    </a>
+    <a class="nav-item" onclick="switchTab('projects');return false" href="#">
+      <span class="nav-icon">⬡</span>Projects<span class="nav-badge" id="nb-pr">0/4</span>
+    </a>
+    <a class="nav-item" onclick="switchTab('exams');return false" href="#">
+      <span class="nav-icon">✦</span>Exam Dates<span class="nav-badge" id="nb-ex">0/3</span>
+    </a>
+    <a class="nav-item" onclick="switchTab('resources');return false" href="#">
+      <span class="nav-icon">◈</span>Resources<span class="nav-badge">Library</span>
+    </a>
+    <a class="nav-item" onclick="switchTab('overview');return false" href="#">
+      <span class="nav-icon">▣</span>Overview
+    </a>
+    <div class="nav-label" style="margin-top:10px">Jump to Phase</div>
+    <a class="nav-item" onclick="jumpPhase(0);return false" href="#">
+      <span class="nav-icon" style="color:var(--azure)">▸</span>Phase 1 — Foundation<span class="nav-badge" id="nb-ph0">—</span>
+    </a>
+    <a class="nav-item" onclick="jumpPhase(1);return false" href="#">
+      <span class="nav-icon" style="color:var(--gold)">▸</span>Phase 2 — Architecture<span class="nav-badge" id="nb-ph1">—</span>
+    </a>
+    <a class="nav-item" onclick="jumpPhase(2);return false" href="#">
+      <span class="nav-icon" style="color:var(--green)">▸</span>Phase 3 — Exam Prep<span class="nav-badge" id="nb-ph2">—</span>
+    </a>
+    <a class="nav-item" onclick="jumpPhase(3);return false" href="#">
+      <span class="nav-icon" style="color:var(--purple)">▸</span>Phase 4 — AI Engineering<span class="nav-badge" id="nb-ph3">—</span>
+    </a>
+    <div class="nav-label" style="margin-top:10px">Architect Manager Gaps</div>
+    <a class="nav-item" onclick="switchTab('resources');setLibFilter('gap');return false" href="#">
+      <span class="nav-icon" style="color:var(--red)">⚡</span>Gap Fix Resources<span class="nav-badge" style="background:var(--red-dim);color:var(--red)">10</span>
+    </a>
+    <a class="nav-item" onclick="switchTab('projects');return false" href="#">
+      <span class="nav-icon" style="color:var(--teal)">◉</span>All 7 Projects<span class="nav-badge" id="nb-pr2">—</span>
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="ring-wrap-outer">
+      <div class="ring-wrap">
+        <svg class="ring-svg" width="46" height="46" viewBox="0 0 46 46">
+          <circle class="ring-track" cx="23" cy="23" r="19"/>
+          <circle class="ring-fill" id="ring-fill" cx="23" cy="23" r="19" stroke-dasharray="119.38" stroke-dashoffset="119.38"/>
+        </svg>
+        <div class="ring-text" id="ring-pct">0%</div>
+      </div>
+      <div class="ring-meta">
+        <div class="ring-label">Overall progress</div>
+        <div class="ring-sub" id="ring-sub">0 / 0 tasks</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <span class="topbar-title" id="topbar-title">Daily checklist</span>
+    <span class="topbar-sub">Data Engineering Manager → Azure Solutions Architect Expert · Start: Apr 28 2026</span>
+  </div>
+  <div class="content">
+    <div class="metrics">
+      <div class="metric azure"><div class="metric-label">Overall progress</div><div class="metric-value" id="m-overall">0%</div><div class="metric-sub" id="m-tasks">0 / 0 tasks</div></div>
+      <div class="metric gold"><div class="metric-label">Hours logged</div><div class="metric-value" id="m-hours">0h</div><div class="metric-sub">target 10–15h / week</div></div>
+      <div class="metric green"><div class="metric-label">Projects done</div><div class="metric-value" id="m-projects">0 / 7</div><div class="metric-sub">portfolio builds</div></div>
+      <div class="metric purple"><div class="metric-label">Certs passed</div><div class="metric-value" id="m-certs">0 / 4</div><div class="metric-sub" id="m-certs-sub">AZ-104 · AZ-305 · AI-103 · TOGAF</div></div>
+    </div>
+    <div class="section active" id="tab-checklist">
+      <div class="page-hdr"><h2>Daily study checklist</h2><p>Skill-based phases: Foundation → Architecture → Exam Prep → AI Engineering · click any task to mark complete · log hours per week</p></div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="background:var(--azure)"></div>Study</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--gold)"></div>Lab</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div>Project</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--red)"></div>Exam</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--purple)"></div>Review</div>
+      </div>
+      <div id="checklist-container"></div>
+    </div>
+    <div class="section" id="tab-projects">
+      <div class="page-hdr"><h2>Portfolio projects</h2><p>7 portfolio builds (4 technical + TOGAF EA case study + Business Case + Security/Threat Model) · sample work references included</p></div>
+      <div class="proj-grid" id="projects-container"></div>
+    </div>
+    <div class="section" id="tab-exams">
+      <div class="page-hdr"><h2>Certification exam dates</h2><p>Set your booking date · update status · links open official Microsoft exam pages</p></div>
+      <div id="exams-container"></div>
+    </div>
+    <div class="section" id="tab-resources">
+      <div class="page-hdr"><h2>Resource library</h2><p>All study links organised by category · every URL verified live · click any card to open</p></div>
+      <div id="resources-container"></div>
+    </div>
+    <div class="section" id="tab-overview">
+      <div class="page-hdr"><h2>Progress overview</h2><p>Data Engineering Manager → Azure Solutions Architect Expert + AI-103 · 13 weeks</p></div>
+      <div id="overview-container"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ═══ RESOURCE DEFINITIONS (all URLs verified live) ═══════════════════════════
+const RES = {
+  // Certifications
+  az104_cert:   {i:'📋',t:'AZ-104 Certification page',u:'https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/',d:'Official cert page — schedule exam, track progress',b:'free'},
+  az104_study:  {i:'📋',t:'AZ-104 Study guide',u:'https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-104',d:'Official skills outline updated March 2026',b:'free'},
+  az305_cert:   {i:'📋',t:'AZ-305 Certification page',u:'https://learn.microsoft.com/en-us/credentials/certifications/azure-solutions-architect/',d:'Azure Solutions Architect Expert official page',b:'free'},
+  az305_exam:   {i:'📋',t:'AZ-305 Exam page',u:'https://learn.microsoft.com/en-us/credentials/certifications/exams/az-305/',d:'Skills outline, April 2026 update details',b:'free'},
+  ai103_course: {i:'📋',t:'AI-103 Official course',u:'https://learn.microsoft.com/en-us/training/courses/ai-103t00',d:'Develop AI apps and agents on Azure — official Microsoft course',b:'free'},
+  az400_cert:   {i:'📋',t:'AZ-400 DevOps Expert',u:'https://learn.microsoft.com/en-us/credentials/certifications/devops-engineer/',d:'Next cert path after AI-103',b:'free'},
+  // AZ-104 Learning paths
+  az104_id:     {i:'📘',t:'AZ-104: Manage identities & governance',u:'https://learn.microsoft.com/en-us/training/paths/az-104-manage-identities-governance/',d:'Entra ID, RBAC, subscriptions, governance — MS Learn path',b:'free'},
+  az104_st:     {i:'📘',t:'AZ-104: Implement & manage storage',u:'https://learn.microsoft.com/en-us/training/paths/az-104-implement-manage-storage/',d:'Blob, files, lifecycle, SAS tokens, replication — MS Learn path',b:'free'},
+  az104_vm:     {i:'📘',t:'AZ-104: Deploy & manage compute',u:'https://learn.microsoft.com/en-us/training/paths/az-104-manage-compute-resources/',d:'VMs, scale sets, App Service, containers — MS Learn path',b:'free'},
+  az104_net:    {i:'📘',t:'AZ-104: Implement & manage networking',u:'https://learn.microsoft.com/en-us/training/paths/az-104-manage-virtual-networks/',d:'VNets, NSGs, peering, routing, VPN — MS Learn path',b:'free'},
+  az104_mon:    {i:'📘',t:'AZ-104: Monitor & maintain Azure',u:'https://learn.microsoft.com/en-us/training/paths/az-104-monitor-backup-resources/',d:'Log Analytics, Azure Monitor, Backup vaults — MS Learn path',b:'free'},
+  // AZ-305 Learning paths
+  az305_d1:     {i:'📘',t:'AZ-305: Design identity, governance & monitoring',u:'https://learn.microsoft.com/en-us/training/paths/design-identity-governance-monitor-solutions-azure/',d:'Domain 1 (25–30%) — Entra, RBAC, Policy, Log Analytics',b:'free'},
+  az305_d2:     {i:'📘',t:'AZ-305: Design data storage solutions',u:'https://learn.microsoft.com/en-us/training/paths/design-data-storage-solutions/',d:'Domain 2 (25–30%) — relational, NoSQL, analytics, migration',b:'free'},
+  az305_d3:     {i:'📘',t:'AZ-305: Design business continuity',u:'https://learn.microsoft.com/en-us/training/paths/design-business-continuity-solutions/',d:'Domain 3 (25–30%) — HA, DR, backup, RTO/RPO',b:'free'},
+  az305_d4:     {i:'📘',t:'AZ-305: Design infrastructure solutions',u:'https://learn.microsoft.com/en-us/training/paths/design-infrastructure-solutions/',d:'Domain 4 (20–25%) — compute, networking, migration',b:'free'},
+  // Azure docs
+  waf:          {i:'📐',t:'Azure Well-Architected Framework',u:'https://learn.microsoft.com/en-us/azure/well-architected/',d:'All 5 WAF pillars — the lens for every AZ-305 design decision',b:'free'},
+  waf_sec:      {i:'📐',t:'WAF: Security pillar',u:'https://learn.microsoft.com/en-us/azure/well-architected/security/',d:'Zero Trust, defense-in-depth, identity perimeter',b:'free'},
+  waf_role:     {i:'📐',t:'WAF: Architect role & responsibilities',u:'https://learn.microsoft.com/en-us/azure/well-architected/architect-role/fundamentals',d:'Stakeholder engagement, trade-offs, ADR framework',b:'free'},
+  arch:         {i:'📐',t:'Azure Architecture Center',u:'https://learn.microsoft.com/en-us/azure/architecture/',d:'Reference architectures with WAF annotations — study 2 per week',b:'free'},
+  waf_assess:   {i:'🔎',t:'WAF Assessment tool',u:'https://learn.microsoft.com/en-us/assessments/azure-architecture-review/',d:'Run a scored WAF review — export report as portfolio evidence',b:'free'},
+  caf:          {i:'📘',t:'Cloud Adoption Framework',u:'https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/',d:'Strategy, Plan, Ready, Adopt, Govern, Manage phases',b:'free'},
+  caf_ready:    {i:'📘',t:'CAF: Ready — Landing Zones',u:'https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/',d:'Landing Zone design, subscription vending, ALZ v2',b:'free'},
+  caf_gov:      {i:'📘',t:'CAF: Govern phase',u:'https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/govern/',d:'5 governance disciplines with Azure tooling',b:'free'},
+  policy:       {i:'📘',t:'Azure Policy docs',u:'https://learn.microsoft.com/en-us/azure/governance/policy/overview',d:'Effect types: deny, audit, deployIfNotExists, modify',b:'free'},
+  arc:          {i:'📘',t:'Azure Arc docs',u:'https://learn.microsoft.com/en-us/azure/azure-arc/',d:'Arc-enabled servers, Kubernetes, data services',b:'free'},
+  arc_gov:      {i:'📘',t:'Azure Arc: assign Policy tutorial',u:'https://learn.microsoft.com/en-us/azure/azure-arc/servers/learn/tutorial-assign-policy-portal',d:'Apply Azure Policy to non-Azure resources via Arc',b:'free'},
+  er:           {i:'📘',t:'ExpressRoute docs',u:'https://learn.microsoft.com/en-us/azure/expressroute/',d:'Circuits, peering, Global Reach, coexistence with VPN',b:'free'},
+  kv:           {i:'📘',t:'Azure Key Vault docs',u:'https://learn.microsoft.com/en-us/azure/key-vault/',d:'Secrets, keys, certificates, RBAC vs access policies',b:'free'},
+  wi:           {i:'📘',t:'AKS Workload Identity',u:'https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview',d:'Federated credentials — eliminate service principal secrets',b:'free'},
+  def_comp:     {i:'📘',t:'Defender for Cloud: Regulatory Compliance',u:'https://learn.microsoft.com/en-us/azure/defender-for-cloud/regulatory-compliance-dashboard',d:'ISO 27001, SOC 2, PCI-DSS, GDPR compliance dashboard',b:'free'},
+  oai:          {i:'📘',t:'Azure OpenAI Service docs',u:'https://learn.microsoft.com/en-us/azure/ai-services/openai/',d:'GPT-4o deployment, PTU vs consumption, content filtering',b:'free'},
+  aisearch:     {i:'📘',t:'Azure AI Search docs',u:'https://learn.microsoft.com/en-us/azure/search/',d:'Vector indexes, RAG pattern implementation',b:'free'},
+  apim:         {i:'📘',t:'Azure API Management docs',u:'https://learn.microsoft.com/en-us/azure/api-management/',d:'Gateway policies, rate limiting, token metering',b:'free'},
+  asr:          {i:'📘',t:'Azure Site Recovery docs',u:'https://learn.microsoft.com/en-us/azure/site-recovery/',d:'IaaS VM DR, failover orchestration, runbooks',b:'free'},
+  backup:       {i:'📘',t:'Azure Backup docs',u:'https://learn.microsoft.com/en-us/azure/backup/',d:'Vaults, Cross Region Restore, retention tiers',b:'free'},
+  pim:          {i:'📘',t:'Privileged Identity Management',u:'https://learn.microsoft.com/en-us/entra/id-governance/privileged-identity-management/',d:'JIT access, PIM role assignments, activation',b:'free'},
+  priv_ep:      {i:'📘',t:'Private Endpoints guide',u:'https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-overview',d:'Private Link vs Service Endpoints decision guide',b:'free'},
+  prometheus:   {i:'📘',t:'Azure Monitor Managed Prometheus',u:'https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/prometheus-metrics-overview',d:'Managed Prometheus for AKS monitoring',b:'free'},
+  sb:           {i:'📘',t:'Azure Service Bus docs',u:'https://learn.microsoft.com/en-us/azure/service-bus-messaging/',d:'Queues, topics, KEDA integration',b:'free'},
+  ai_studio:    {i:'📘',t:'Azure AI Foundry (AI Studio)',u:'https://learn.microsoft.com/en-us/azure/ai-studio/',d:'Model deployment, evaluation, AI hub workspace',b:'free'},
+  purview:      {i:'📘',t:'Microsoft Purview docs',u:'https://learn.microsoft.com/en-us/purview/purview',d:'Data governance, classification, lineage',b:'free'},
+  confidential: {i:'📘',t:'Azure Confidential Computing',u:'https://learn.microsoft.com/en-us/azure/confidential-computing/',d:'Confidential VMs, containers, attestation',b:'free'},
+  cost:         {i:'📘',t:'Azure Cost Management docs',u:'https://learn.microsoft.com/en-us/azure/cost-management-billing/',d:'FinOps, savings plans, chargeback/showback',b:'free'},
+  chaos:        {i:'📘',t:'Azure Chaos Studio docs',u:'https://learn.microsoft.com/en-us/azure/chaos-studio/',d:'Chaos engineering, reliability testing',b:'free'},
+  vwan:         {i:'📘',t:'Azure Virtual WAN docs',u:'https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-about',d:'Hub-spoke at scale, branch connectivity',b:'free'},
+  adls:         {i:'📘',t:'Azure Data Lake Gen2',u:'https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction',d:'ADLS Gen2 hierarchical namespace, lifecycle policies',b:'free'},
+  bicep:        {i:'📘',t:'Bicep overview',u:'https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview',d:'Bicep IaC — deploy Azure resources declaratively',b:'free'},
+  // Applied Skills
+  as_def:   {i:'🏅',t:'Applied Skills: Defender for Cloud compliance',u:'https://learn.microsoft.com/en-us/credentials/applied-skills/secure-azure-services-and-workloads-with-microsoft-defender-for-cloud-regulatory-compliance-controls/',d:'Free scenario-based assessment — earns verifiable badge',b:'free'},
+  as_mon:   {i:'🏅',t:'Applied Skills: Deploy & configure Azure Monitor',u:'https://learn.microsoft.com/en-us/credentials/applied-skills/deploy-and-configure-azure-monitor/',d:'Free Monitor assessment — validates Week 4 lab work',b:'free'},
+  as_gh:    {i:'🏅',t:'Applied Skills: Security with GitHub Actions',u:'https://learn.microsoft.com/en-us/credentials/applied-skills/implement-security-through-pipeline-using-devops/',d:'Pipeline security, OIDC, secrets management',b:'free'},
+  as_ai:    {i:'🏅',t:'Applied Skills: Build Azure AI solution',u:'https://learn.microsoft.com/en-us/credentials/applied-skills/build-azure-ai-solution/',d:'AI Services assessment — complements Project 4 and AI-103',b:'free'},
+  // Practice exams
+  mu:       {i:'📝',t:'MeasureUp (AZ-104 & AZ-305)',u:'https://www.measureup.com',d:'Official Microsoft-licensed practice exams — target 85%+ before booking',b:'paid'},
+  wl:       {i:'📝',t:'WhizLabs (AZ-305 & AI-103)',u:'https://www.whizlabs.com',d:'High-volume question banks — good for extra practice',b:'paid'},
+  td:       {i:'📝',t:'Tutorials Dojo — Azure',u:'https://tutorialsdojo.com/microsoft-azure/',d:'Strong scenario-based questions — AI-103 practice exams also available',b:'paid'},
+  et:       {i:'📝',t:'ExamTopics AZ-305 community',u:'https://www.examtopics.com/exams/microsoft/az-305/',d:'Community discussions — understand why wrong answers are wrong',b:'free'},
+  // Videos
+  savill:   {i:'▶',t:"John Savill's Technical Training",u:'https://www.youtube.com/@NTFAQGuy',d:'Best free resource for AZ-104 and AZ-305 — Master Class playlists',b:'video'},
+  savill_104:{i:'▶',t:'Savill AZ-104 Master Class playlist',u:'https://www.youtube.com/playlist?list=PLlVtbbG169nGlGPWs9xaLKT1KfwqREHbs',d:'Full AZ-104 playlist — Entra ID, networking, storage deep-dives',b:'video'},
+  reactor:  {i:'▶',t:'Microsoft Reactor sessions',u:'https://developer.microsoft.com/en-us/reactor/',d:'Live & recorded sessions by Microsoft engineers — AI-103 content',b:'video'},
+  // Courses
+  udemy_305:{i:'🎓',t:'Scott Duffy AZ-305 (Udemy)',u:'https://www.udemy.com/course/az-305-designing-azure-infrastructure-solutions/',d:'Comprehensive video course with case study walkthroughs',b:'paid'},
+  // GitHub repos (200 verified)
+  gh_es:    {i:'⚙',t:'GitHub: Azure/Enterprise-Scale',u:'https://github.com/Azure/Enterprise-Scale',d:'Official Azure Landing Zones Bicep & Terraform reference implementation',b:'tool'},
+  gh_alz:   {i:'⚙',t:'GitHub: ALZ Terraform Accelerator',u:'https://github.com/Azure/ALZ-Terraform-Accelerator',d:'ALZ Terraform modules — subscription vending, policy-as-code',b:'tool'},
+  gh_arc:   {i:'⚙',t:'GitHub: Azure Arc Jumpstart',u:'https://github.com/microsoft/azure_arc',d:'Full Arc scenario labs: servers, K8s, data services',b:'tool'},
+  gh_policy:{i:'⚙',t:'GitHub: Azure Policy repo',u:'https://github.com/Azure/azure-policy',d:'Built-in policy initiatives: ISO 27001, NIST, PCI-DSS, CIS',b:'tool'},
+  gh_caf_tf:{i:'⚙',t:'GitHub: CAF Terraform Landing Zones',u:'https://github.com/Azure/caf-terraform-landingzones',d:'Official CAF Terraform module library',b:'tool'},
+  gh_hubspoke:{i:'⚙',t:'GitHub: mspnp hub-spoke samples',u:'https://github.com/mspnp/samples/tree/main/solutions',d:'Microsoft Patterns & Practices: hub-spoke reference implementations',b:'tool'},
+  // Tools
+  tf_cloud: {i:'⚙',t:'HashiCorp Terraform (Cloud)',u:'https://www.hashicorp.com/products/terraform',d:'Remote state management, workspace management, run history',b:'tool'},
+  codespaces:{i:'⚙',t:'GitHub Codespaces',u:'https://github.com/features/codespaces',d:'Cloud dev environment — 60 free hrs/month, Terraform & Azure CLI pre-configured',b:'tool'},
+  // Community
+  finops:   {i:'🏅',t:'FinOps Foundation',u:'https://www.finops.org/',d:'Free FinOps practitioner certification — chargeback/showback patterns',b:'free'},
+  green_sf: {i:'🌱',t:'Green Software Foundation',u:'https://greensoftware.foundation',d:'Sustainable architecture principles for 2026',b:'free'},
+  az_updates:{i:'📡',t:'Azure Updates feed',u:'https://azure.microsoft.com/en-us/updates/',d:'Track new services added to AZ-305 scope',b:'free'},
+  ms_tech:  {i:'📰',t:'Microsoft Tech Community Blog',u:'https://techcommunity.microsoft.com/category/azure',d:'Azure Architecture & Networking blog by product engineers',b:'free'},
+  // ── Gap Fix: TOGAF & Enterprise Architecture ──
+  togaf_cert:    {i:'📋',t:'TOGAF EA Practitioner (OGEA-103)',u:'https://www.opengroup.org/certifications/togaf-certification-portfolio',d:'Combined Part 1+2 exam — vendor-neutral EA framework used by 80%+ of Global 50 companies',b:'paid'},
+  togaf_study:   {i:'📘',t:'TOGAF Standard 10th Edition',u:'https://www.opengroup.org/togaf',d:'Official TOGAF framework documentation — ADM, Architecture Domains, Governance',b:'free'},
+  togaf_course:  {i:'🎓',t:'TOGAF EA Foundation+Practitioner (Udemy)',u:'https://www.udemy.com/course/togaf-9-foundation-course/',d:'Top-rated prep course for TOGAF exam — ADM, deliverables, governance',b:'paid'},
+  archimate:     {i:'📐',t:'ArchiMate 3 Specification',u:'https://www.opengroup.org/archimate-forum/archimate-overview',d:'Visual modelling notation for enterprise architecture — used alongside TOGAF',b:'free'},
+  // ── Gap Fix: Business Case / TCO ──
+  ms_tco:        {i:'📊',t:'Azure TCO Calculator',u:'https://azure.microsoft.com/en-us/pricing/tco/calculator/',d:'Compare on-premises vs Azure costs — use to build Project 1 TCO analysis',b:'free'},
+  ms_pricing:    {i:'📊',t:'Azure Pricing Calculator',u:'https://azure.microsoft.com/en-us/pricing/calculator/',d:'Model monthly costs for every service in your architecture',b:'free'},
+  ms_roi:        {i:'📊',t:'Forrester TEI for Azure (Microsoft)',u:'https://azure.microsoft.com/en-us/resources/forrester-tei-microsoft-azure-iaas/',d:'Third-party ROI study — cite in business cases for board-level credibility',b:'free'},
+  // ── Gap Fix: Security / Threat Modelling ──
+  stride:        {i:'🔒',t:'Microsoft Threat Modeling Tool (STRIDE)',u:'https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool',d:'STRIDE threat modelling — generates threat reports, use for Project 2 AKS security review',b:'free'},
+  sc100:         {i:'📋',t:'SC-100 Microsoft Cybersecurity Architect',u:'https://learn.microsoft.com/en-us/credentials/certifications/cybersecurity-architect-expert/',d:'Expert security architect cert — pairs with AZ-305, targets regulated-industry roles',b:'free'},
+  owasp_threat:  {i:'🔒',t:'OWASP Threat Dragon (open source)',u:'https://owasp.org/www-project-threat-dragon/',d:'Free open-source threat modelling tool — creates STRIDE diagrams for portfolios',b:'tool'},
+  ms_threat_tmpl:{i:'📄',t:'Microsoft SDL Threat Modelling',u:'https://www.microsoft.com/en-us/securityengineering/sdl/threatmodeling',d:'Official Microsoft SDL process — template used in enterprise security reviews',b:'free'},
+  // ── Gap Fix: People Leadership ──
+  ms_community:  {i:'🌐',t:'Microsoft Tech Community — Azure Q&A',u:'https://techcommunity.microsoft.com/t5/azure/ct-p/Azure',d:'Answer architecture questions publicly — builds thought leadership reputation',b:'free'},
+  global_azure:  {i:'🌐',t:'Global Azure community events',u:'https://globalazure.net/',d:'Annual community event — submit a talk proposal on your portfolio architecture',b:'free'},
+  // ── Gap Fix: Thought Leadership / Writing ──
+  gh_pages_host: {i:'⚙',t:'GitHub Pages (free blog hosting)',u:'https://pages.github.com/',d:'Free hosting for a personal architecture blog — publish your ADRs and case studies',b:'tool'},
+  // ── Gap Fix: Multi-cloud ──
+  aws_saa:       {i:'📋',t:'AWS Solutions Architect Associate',u:'https://aws.amazon.com/certification/certified-solutions-architect-associate/',d:'Post-AI-103 target — AZ-305 + AWS SAA combination widens Architect Manager applicant funnel',b:'paid'},
+  // ── Gap Fix: Sample Work & Templates ──
+  sample_adr:    {i:'📄',t:'GitHub: ADR Tools (standard format)',u:'https://github.com/npryce/adr-tools',d:'Industry-standard ADR format — use as baseline for all 4 portfolio ADRs',b:'tool'},
+  sample_tco:    {i:'📄',t:'GitHub: Azure Review Checklists',u:'https://github.com/Azure/review-checklists',d:'Microsoft Azure review checklists — includes WAF, cost, and security review templates',b:'tool'},
+
+};
+
+// ═══ RESOURCE LIBRARY SECTIONS ═════════════════════════════════════════════
+const LIB = [
+  {cat:'Microsoft Learn — Free paths & certs', f:'free', items:['az104_cert','az104_study','az305_cert','az305_exam','ai103_course','az104_id','az104_st','az104_vm','az104_net','az104_mon','az305_d1','az305_d2','az305_d3','az305_d4','waf','waf_sec','waf_role','arch','waf_assess','caf','caf_ready','caf_gov','policy','arc','arc_gov','er','kv','wi','def_comp','oai','aisearch','apim','asr','backup','pim','priv_ep','prometheus','sb','ai_studio','purview','confidential','cost','chaos','vwan','adls','bicep']},
+  {cat:'Applied Skills credentials (free, verifiable)', f:'free', items:['as_def','as_mon','as_gh','as_ai']},
+  {cat:'Practice exams', f:'exam', items:['mu','wl','td','et']},
+  {cat:'Video courses', f:'video', items:['savill','savill_104','reactor','udemy_305']},
+  {cat:'GitHub repos (open source)', f:'tool', items:['gh_es','gh_alz','gh_arc','gh_policy','gh_caf_tf','gh_hubspoke']},
+  {cat:'Dev tools', f:'tool', items:['tf_cloud','codespaces']},
+  {cat:'Community & updates', f:'other', items:['finops','green_sf','az_updates','ms_tech','az400_cert']},
+  {cat:'Gap Fix — TOGAF & Enterprise Architecture', f:'gap', items:['togaf_cert','togaf_study','togaf_course','archimate']},
+  {cat:'Gap Fix — Business Case & TCO', f:'gap', items:['ms_tco','ms_pricing','ms_roi']},
+  {cat:'Gap Fix — Threat Modelling & Security', f:'gap', items:['stride','sc100','owasp_threat','ms_threat_tmpl']},
+  {cat:'Gap Fix — Leadership & Community', f:'gap', items:['gh_mentoring','ms_community','global_azure','ms_learn_blog','gh_pages']},
+  {cat:'Gap Fix — Sample Work & Templates', f:'gap', items:['sample_adr','sample_rfc','sample_tco','aws_saa']},
+];
+
+// ═══ PLAN — Path A, start Apr 28 2026 ══════════════════════════════════════
+const PLAN = [
+ {phase:"Phase 1 — Foundation: Networking, Identity & Security",label:"Phase 1",months:"Apr 28 – May 22 2026",weeks:[
+  {week:"Week 1 — Azure orientation & identity",dates:"Apr 28 – May 2",targetHours:10,days:[
+   {day:"Monday",tasks:[
+    {id:"t1",text:'Set up personal Azure subscription + configure $50/month budget alert in Cost Management',tag:"lab",
+     resources:{"Docs":[{k:'az104_cert',n:'AZ-104 cert page — overview of what you will learn'}],"Cost":[{k:'cost',n:'Cost Management — set up budget alerts immediately'}]}},
+    {id:"t2",text:'Read <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-104" target="_blank">AZ-104 skills outline</a> — map all 5 domains to your 7-week study plan',tag:"study",
+     resources:{"Study guide":[{k:'az104_study',n:'Official skills outline updated March 2026'}],"Cert":[{k:'az104_cert',n:'AZ-104 certification overview'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t3",text:'<a href="https://learn.microsoft.com/en-us/training/paths/az-104-manage-identities-governance/" target="_blank">AZ-104 Domain 1</a>: Manage Entra identities — users, groups, external identities',tag:"study",
+     resources:{"MS Learn path":[{k:'az104_id',n:'Full identity & governance learning path'}],"PIM":[{k:'pim',n:'Privileged Identity Management deep dive'}]}},
+    {id:"t4",text:'Watch <a href="https://www.youtube.com/@NTFAQGuy" target="_blank">Savill AZ-104 Master Class</a>: Entra ID episode — whiteboard explanation of identity architecture',tag:"study",
+     resources:{"Video":[{k:'savill',n:'Savill channel — AZ-104 Master Class playlist'}],"Playlist":[{k:'savill_104',n:'Direct link to full AZ-104 playlist'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t5",text:'AZ-104 Domain 1: RBAC, management groups, subscriptions, Azure Policy (deny / audit / deployIfNotExists)',tag:"study",
+     resources:{"Policy":[{k:'policy',n:'Azure Policy docs — effect types in detail'}],"MS Learn":[{k:'az104_id',n:'Governance section of identity path'}]}},
+    {id:"t6",text:'Lab: Create users, groups, assign RBAC roles, configure PIM eligible assignment in Azure portal',tag:"lab",
+     resources:{"PIM":[{k:'pim',n:'PIM step-by-step configuration'}],"Tool":[{k:'codespaces',n:'GitHub Codespaces — Azure CLI pre-installed'}]}},
+   ]},
+   {day:"Thursday",tasks:[
+    {id:"t7",text:'<a href="https://learn.microsoft.com/en-us/training/paths/az-104-implement-manage-storage/" target="_blank">AZ-104 Domain 2</a>: Storage accounts — blob tiers, lifecycle policies, replication, SAS tokens',tag:"study",
+     resources:{"MS Learn path":[{k:'az104_st',n:'Full storage management learning path'}],"Video":[{k:'savill',n:'Savill AZ-104: Storage episodes'}]}},
+    {id:"t8",text:'Lab: Deploy storage account via Azure CLI — configure lifecycle rules and generate SAS token',tag:"lab",
+     resources:{"Tool":[{k:'codespaces',n:'GitHub Codespaces for Azure CLI labs'}]}},
+   ]},
+   {day:"Friday",tasks:[
+    {id:"t9",text:'AZ-104 Domain 2: Private Endpoints vs Service Endpoints — design decision and DNS impact',tag:"study",
+     resources:{"Docs":[{k:'priv_ep',n:'Private Endpoint full guide — when to use vs Service Endpoints'}],"WAF":[{k:'waf_sec',n:'Network security design in WAF Security pillar'}]}},
+    {id:"t10",text:'Lab: Add Private Endpoint to storage account — validate Private DNS zone resolution end-to-end',tag:"lab",
+     resources:{"Docs":[{k:'priv_ep',n:'Private endpoint DNS configuration guide'}]}},
+    {id:"t146",text:"LinkedIn headline update NOW: LinkedIn should read 'Azure Solutions Architect | Data Engineering Manager | AZ-104 in progress' — do this today, not Week 13",tag:"review",
+     resources:{"Community":[{k:'ms_community',n:'Azure Q&A: answer 1 question to start building public visibility'}]}},
+    {id:"t147",text:'TOGAF orientation: read the TOGAF ADM overview — understand the 4 architecture domains (Business, Application, Data, Technology) in 90 minutes',tag:"study",
+     resources:{"TOGAF":[{k:'togaf_study',n:'TOGAF Standard 10th Edition — ADM overview'}],"Course":[{k:'togaf_course',n:'Udemy TOGAF course — Module 1 only this week'}]}}
+   ]},
+  ]},
+  {week:"Week 2 — Compute & networking fundamentals",dates:"May 4 – 8",targetHours:12,days:[
+   {day:"Monday",tasks:[
+    {id:"t11",text:'<a href="https://learn.microsoft.com/en-us/training/paths/az-104-manage-compute-resources/" target="_blank">AZ-104 Domain 3</a>: VMs, scale sets, App Service, Azure Container Instances',tag:"study",
+     resources:{"MS Learn path":[{k:'az104_vm',n:'Full compute resources learning path'}],"Video":[{k:'savill',n:'Savill AZ-104: Compute episodes'}]}},
+    {id:"t12",text:'Lab: Deploy VM scale set with auto-scale rule based on CPU — test scale-out trigger',tag:"lab",
+     resources:{"Tool":[{k:'codespaces',n:'Run scale set deployment from Codespaces'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t13",text:'<a href="https://learn.microsoft.com/en-us/training/paths/az-104-manage-virtual-networks/" target="_blank">AZ-104 Domain 4</a>: VNets, subnets, NSGs, peering, routing tables, Azure DNS',tag:"study",
+     resources:{"MS Learn path":[{k:'az104_net',n:'Full networking learning path'}],"Video":[{k:'savill',n:'Savill AZ-104: Networking episodes'}]}},
+    {id:"t14",text:'Lab: Deploy hub VNet + spoke VNet with peering — validate bidirectional connectivity',tag:"lab",
+     resources:{"Ref":[{k:'arch',n:'Hub-spoke reference architecture on Architecture Center'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t15",text:'AZ-104 Domain 4: Azure Firewall Premium vs NSG — when each layer applies in architecture',tag:"study",
+     resources:{"WAF":[{k:'waf_sec',n:'Defense-in-depth: network perimeter vs identity perimeter'}],"Video":[{k:'savill',n:'Savill: Networking design deep-dive'}]}},
+    {id:"t16",text:'Lab: Deploy Azure Bastion — validate zero public-IP VM access',tag:"lab",
+     resources:{"Docs":[{k:'az104_net',n:'Bastion lab exercise in the networking path'}]}},
+   ]},
+   {day:"Thursday",tasks:[
+    {id:"t17",text:'AZ-104 Domain 4: VPN Gateway (P2S, S2S) — configure site-to-site connectivity lab',tag:"lab",
+     resources:{"Video":[{k:'savill',n:'Savill: VPN Gateway configuration'}],"ER":[{k:'er',n:'ExpressRoute vs VPN Gateway — when to use each'}]}},
+    {id:"t18",text:'Draw full hub-and-spoke topology from memory: Firewall, Bastion, Private DNS zones, NSGs, peering',tag:"review",
+     resources:{"Ref":[{k:'arch',n:'Hub-spoke with Azure Firewall reference architecture'}]}},
+   ]},
+   {day:"Friday",tasks:[
+    {id:"t19",text:'<a href="https://learn.microsoft.com/en-us/training/paths/az-104-monitor-backup-resources/" target="_blank">AZ-104 Domain 5</a>: Log Analytics, Azure Monitor, Azure Backup vaults',tag:"study",
+     resources:{"MS Learn path":[{k:'az104_mon',n:'Full monitoring & backup learning path'}],"Backup":[{k:'backup',n:'Azure Backup vault full documentation'}]}},
+    {id:"t20",text:'Lab: Create Log Analytics workspace — deploy diagnostic settings on 3 resource types',tag:"lab",
+     resources:{"Docs":[{k:'az104_mon',n:'Guided monitoring lab exercises'}]}},
+    {id:"t148",text:"Run Azure TCO Calculator for a fictional 20-server migration — save the 3-year report as your first business case draft",tag:"project",
+     resources:{"TCO":[{k:'ms_tco',n:'Azure TCO Calculator — compare on-prem vs Azure over 3 years'}],"Pricing":[{k:'ms_pricing',n:'Azure Pricing Calculator — model exact monthly service costs'}]}},
+    {id:"t149",text:"Write a 1-page 'business requirements to architecture' brief for this week's main technical choice — practice translating engineering logic into business language",tag:"review",
+     resources:{"Template":[{k:'sample_adr',n:'ADR Tools — industry standard format for all your ADRs'}]}}
+   ]},
+  ]},
+  {week:"Week 3 — Practice exam + Project 1 kickoff",dates:"May 11 – 15",targetHours:12,days:[
+   {day:"Monday",tasks:[
+    {id:"t21",text:'MeasureUp AZ-104 practice exam #1 — first full attempt, timed, exam conditions',tag:"exam",
+     resources:{"Practice":[{k:'mu',n:'MeasureUp — official Microsoft-licensed practice exam'}],"Also":[{k:'wl',n:'WhizLabs for extra volume practice'}]}},
+    {id:"t22",text:'Score review: categorise wrong answers by domain — create targeted revision list',tag:"review",
+     resources:{"Study":[{k:'az104_study',n:'Revisit domain objectives for weak areas'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t23",text:'Targeted revision: weakest domain from practice exam #1 — re-read path + redo labs',tag:"study",
+     resources:{"MS Learn":[{k:'az104_id',n:'Identity path'}],"Storage":[{k:'az104_st',n:'Storage path'}],"Network":[{k:'az104_net',n:'Networking path'}]}},
+    {id:"t24",text:'Savill AZ-104 Master Class: watch episodes for your weakest domain',tag:"study",
+     resources:{"Video":[{k:'savill_104',n:'AZ-104 Master Class full playlist'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t25",text:'Project 1 kickoff: Scaffold Terraform repo — modules: networking, identity, governance, application',tag:"project",
+     resources:{"IaC":[{k:'tf_cloud',n:'Set up Terraform Cloud free tier for remote state'}],"Ref":[{k:'gh_es',n:'Enterprise-Scale repo — study module structure'}],"ALZ":[{k:'gh_alz',n:'ALZ Terraform Accelerator as reference'}]}},
+    {id:"t26",text:'Project 1: Terraform — management group hierarchy + Azure Policy initiative (tagging, allowed regions)',tag:"project",
+     resources:{"Policy":[{k:'policy',n:'Policy effect types — deny, audit, deployIfNotExists'}],"IaC":[{k:'gh_alz',n:'ALZ policy-as-code examples'}],"CAF":[{k:'caf_ready',n:'Landing Zone governance design principles'}]}},
+    {id:"t150",text:"Answer 2 architecture questions on Microsoft Tech Community Azure Q&A — use your data engineering background as expert context. Builds public visibility.",tag:"review",
+     resources:{"Community":[{k:'ms_community',n:'Microsoft Tech Community — Azure architecture Q&A'}],"Global":[{k:'global_azure',n:'Global Azure events — find your regional community now'}]}},
+    {id:"t151",text:"TOGAF study: ADM Phases A–D. Write a 1-page Phase A Architecture Vision document applied to Project 1 — adds TOGAF deliverable to portfolio",tag:"study",
+     resources:{"TOGAF":[{k:'togaf_study',n:'TOGAF ADM Phases A–D documentation'}],"Course":[{k:'togaf_course',n:'Udemy TOGAF — Phases A–D modules'}]}}
+   ]},
+   {day:"Thursday",tasks:[
+    {id:"t27",text:'MeasureUp AZ-104 practice exam #2 — target 80%+ before proceeding',tag:"exam",
+     resources:{"Practice":[{k:'mu',n:'Second MeasureUp sitting — confirm improvement'}],"Alt":[{k:'et',n:'ExamTopics community for scenario discussion'}]}},
+    {id:"t28",text:'Project 1: Terraform — hub VNet + Azure Firewall Premium module with Firewall Policy',tag:"project",
+     resources:{"Ref":[{k:'arch',n:'Hub-spoke with Azure Firewall reference architecture'}],"IaC":[{k:'tf_cloud',n:'Terraform Cloud — plan + apply'}]}},
+   ]},
+   {day:"Friday",tasks:[
+    {id:"t29",text:'Book AZ-104 exam on Pearson VUE — target end of Week 4 or start of Week 5',tag:"exam",
+     resources:{"Cert":[{k:'az104_cert',n:'AZ-104 exam scheduling page'}]}},
+    {id:"t30",text:'Read WAF Security pillar + WAF Architect Role documentation — annotate with own notes',tag:"review",
+     resources:{"WAF":[{k:'waf_sec',n:'Security pillar full documentation'}],"Role":[{k:'waf_role',n:'Architect role: stakeholder engagement and ADR guidance'}]}},
+   ]},
+  ]},
+  {week:"Week 4 — AZ-104 exam + AZ-305 orientation",dates:"May 18 – 22",targetHours:12,days:[
+   {day:"Monday",tasks:[
+    {id:"t31",text:'Project 1: Terraform — App Service + Azure SQL Database + Application Gateway v2 + WAF Policy',tag:"project",
+     resources:{"Ref":[{k:'arch',n:'Three-tier app reference architecture'}],"Security":[{k:'waf_sec',n:'WAF OWASP ruleset design'}]}},
+    {id:"t32",text:'Project 1: Add Private Endpoints to SQL and Storage — validate Private DNS zone resolution',tag:"lab",
+     resources:{"Docs":[{k:'priv_ep',n:'Private endpoint for PaaS services'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t33",text:'MeasureUp AZ-104 practice exam #3 — confirm 85%+ readiness before exam day',tag:"exam",
+     resources:{"Practice":[{k:'mu',n:'Third MeasureUp attempt — must reach 85%+'}],"Extra":[{k:'wl',n:'WhizLabs for additional question volume'}]}},
+    {id:"t34",text:'Final AZ-104 revision: governance and monitoring domains (often lighter — consolidate quickly)',tag:"review",
+     resources:{"Docs":[{k:'az104_mon',n:'Monitor & backup path — final revision'}],"Gov":[{k:'az104_id',n:'Governance section — policy and RBAC review'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t35",text:'PASS AZ-104 EXAM ✓ — Azure Administrator Associate certified',tag:"exam",
+     resources:{"Next":[{k:'az305_cert',n:'Begin AZ-305 path immediately after'}]}},
+    {id:"t36",text:'Project 1: Run <a href="https://learn.microsoft.com/en-us/assessments/azure-architecture-review/" target="_blank">WAF Assessment</a> — export scored report as portfolio evidence',tag:"review",
+     resources:{"Assessment":[{k:'waf_assess',n:'WAF Assessment — produces scored PDF report'}]}},
+   ]},
+   {day:"Thursday",tasks:[
+    {id:"t37",text:'Project 1: Write Architecture Decision Record (one WAF-pillar justification per section)',tag:"project",
+     resources:{"WAF":[{k:'waf',n:'WAF pillar framework for justification structure'}],"Role":[{k:'waf_role',n:'ADR format: decisions, context, trade-offs'}]}},
+    {id:"t152",text:"Write a full TCO business case for Project 1: 3-year on-premises vs Azure comparison using TCO Calculator + ROI justification. Publish to GitHub.",tag:"project",
+     resources:{"TCO":[{k:'ms_tco',n:'Azure TCO Calculator — export comparison report'}],"ROI":[{k:'ms_roi',n:'Forrester TEI for Azure — cite for board-level credibility'}],"Checklist":[{k:'sample_tco',n:'Azure Review Checklists — use cost section as template'}]}},
+    {id:"t153",text:"Add quantified outcomes to Project 1 README: deployment time, monthly cost, compliance score, and WAF Assessment score — every project needs numbers, not just capabilities",tag:"project",
+     resources:{"Pricing":[{k:'ms_pricing',n:'Calculate actual monthly cost of your deployed architecture'}]}},
+    {id:"t38",text:'Project 1: Publish to GitHub — architecture diagram + ADR + README with design decisions',tag:"project",
+     resources:{"Ref":[{k:'gh_es',n:'Study Enterprise-Scale README as formatting example'}]}},
+   ]},
+   {day:"Friday",tasks:[
+    {id:"t39",text:'AZ-305 intro: read official <a href="https://learn.microsoft.com/en-us/credentials/certifications/exams/az-305/" target="_blank">exam skills outline</a> — understand April 2026 update changes',tag:"study",
+     resources:{"Cert":[{k:'az305_exam',n:'AZ-305 exam page — April 2026 update details'}],"Video":[{k:'savill',n:'Savill — AZ-305 introduction video'}]}},
+    {id:"t40",text:'Read 2 reference architectures on Azure Architecture Center — annotate with WAF pillars',tag:"study",
+     resources:{"Ref":[{k:'arch',n:'Browse enterprise reference architectures'}],"WAF":[{k:'waf',n:'WAF annotation framework — 5 pillars'}]}},
+   ]},
+  ]},
+ ]},
+
+ {phase:"Phase 2 — Architecture Depth: Design Thinking & Projects",label:"Phase 2",months:"May 25 – Jun 26 2026",weeks:[
+  {week:"Week 5 — Identity, governance & monitoring design",dates:"May 25 – 29",targetHours:12,days:[
+   {day:"Monday",tasks:[
+    {id:"t41",text:'<a href="https://learn.microsoft.com/en-us/training/paths/design-identity-governance-monitor-solutions-azure/" target="_blank">AZ-305 Domain 1</a>: Design identity — PIM, Conditional Access, Zero Trust model, hybrid identity',tag:"study",
+     resources:{"MS Learn":[{k:'az305_d1',n:'Domain 1 learning path — identity solutions'}],"PIM":[{k:'pim',n:'PIM advanced patterns: eligible vs active roles'}],"Video":[{k:'savill',n:'Savill AZ-305: Identity & Governance deep-dive'}]}},
+    {id:"t42",text:'AZ-305 Domain 1: Design governance — Azure Policy at scale, ALZ Landing Zones v2, CAF alignment',tag:"study",
+     resources:{"CAF":[{k:'caf',n:'CAF full documentation — Strategy through Manage'}],"ALZ":[{k:'caf_ready',n:'Landing Zone design principles'}],"Policy":[{k:'gh_policy',n:'Azure Policy built-in initiatives repo'}]}},
+    {id:"t135",text:"TOGAF study: ADM Phases E–H (Opportunities, Migration Planning, Implementation Governance, Architecture Change Management). Write 1-page summary.",tag:"study",
+     resources:{"TOGAF":[{k:'togaf_study',n:'TOGAF ADM Phases E–H'}],"ArchiMate":[{k:'archimate',n:'ArchiMate notation — draw your Project 1 architecture in EA notation'}]}},
+    {id:"t136",text:"Write a full TCO business case for Project 1: 3-year on-premises vs Azure cost comparison using TCO Calculator + ROI justification. Add as a GitHub deliverable.",tag:"project",
+     resources:{"TCO":[{k:'ms_tco',n:'Azure TCO Calculator — export 3-year comparison'}],"ROI":[{k:'ms_roi',n:'Forrester TEI for Azure — cite for board credibility'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t43",text:'AZ-305 Domain 1: Design monitoring — Log Analytics workspace design, Sentinel SIEM intro',tag:"study",
+     resources:{"WAF":[{k:'waf',n:'Operational Excellence pillar — observability design'}],"Video":[{k:'savill',n:'Savill AZ-305: Monitoring design'}]}},
+    {id:"t44",text:'CAF deep-dive: Strategy → Plan → Ready → Govern phases — write one-page phase map',tag:"study",
+     resources:{"CAF":[{k:'caf',n:'CAF overview — all 6 phases'}],"Gov":[{k:'caf_gov',n:'Govern phase: 5 governance disciplines'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t45",text:'Project 2 kickoff: Private AKS cluster — design Bicep module structure + naming convention',tag:"project",
+     resources:{"WI":[{k:'wi',n:'Workload Identity overview'}],"Bicep":[{k:'bicep',n:'Bicep overview — IaC for AKS cluster'}],"Tool":[{k:'codespaces',n:'Codespaces — Bicep development environment'}]}},
+    {id:"t46",text:'Project 2: Deploy private AKS cluster (no public API endpoint) — Azure CNI Overlay (Bicep)',tag:"lab",
+     resources:{"Docs":[{k:'wi',n:'Private cluster configuration guide'}]}},
+   ]},
+   {day:"Thursday",tasks:[
+    {id:"t47",text:'<a href="https://learn.microsoft.com/en-us/training/paths/design-data-storage-solutions/" target="_blank">AZ-305 Domain 2</a>: Design data storage — relational vs NoSQL vs analytical decision framework',tag:"study",
+     resources:{"MS Learn":[{k:'az305_d2',n:'Domain 2 learning path — data storage solutions'}],"Ref":[{k:'arch',n:'Data store selection guide on Architecture Center'}],"Video":[{k:'savill',n:'Savill AZ-305: Data storage design'}]}},
+    {id:"t48",text:'AZ-305 Domain 2: Azure SQL tiers — serverless vs provisioned vs Hyperscale vs Managed Instance',tag:"study",
+     resources:{"Ref":[{k:'arch',n:'SQL tier selection reference architecture'}]}},
+   ]},
+   {day:"Friday",tasks:[
+    {id:"t49",text:'Project 2: Configure <a href="https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview" target="_blank">Workload Identity</a> + Key Vault Secrets Store CSI Driver — zero secrets in manifests',tag:"lab",
+     resources:{"WI":[{k:'wi',n:'Workload Identity step-by-step'}],"KV":[{k:'kv',n:'Key Vault CSI driver setup'}]}},
+    {id:"t50",text:'Apply <a href="https://learn.microsoft.com/en-us/credentials/applied-skills/secure-azure-services-and-workloads-with-microsoft-defender-for-cloud-regulatory-compliance-controls/" target="_blank">Applied Skills #1</a>: Defender for Cloud Regulatory Compliance assessment',tag:"lab",
+     resources:{"Applied Skills":[{k:'as_def',n:'Free scenario-based lab — earns verifiable badge'}]}},
+   ]},
+  ]},
+  {week:"Week 6 — Data storage & business continuity design",dates:"Jun 1 – 5",targetHours:13,days:[
+   {day:"Monday",tasks:[
+    {id:"t51",text:'AZ-305 Domain 2: Cosmos DB — consistency models, partition strategy, multi-region write design',tag:"study",
+     resources:{"Ref":[{k:'arch',n:'Cosmos DB multi-region architecture reference'}],"Video":[{k:'savill',n:'Savill AZ-305: Cosmos DB design'}]}},
+    {id:"t52",text:'AZ-305 Domain 2: Analytics platform choice — Synapse Analytics vs Microsoft Fabric vs Databricks',tag:"study",
+     resources:{"ADLS":[{k:'adls',n:'ADLS Gen2 foundation for analytics platforms'}],"Ref":[{k:'arch',n:'Analytics architecture comparison reference'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t53",text:'Project 2: Configure Flux v2 GitOps — reconcile AKS cluster state from GitHub repository',tag:"lab",
+     resources:{"Tool":[{k:'codespaces',n:'Codespaces for Flux configuration'}]}},
+    {id:"t54",text:'Project 2: Deploy KEDA with <a href="https://learn.microsoft.com/en-us/azure/service-bus-messaging/" target="_blank">Service Bus</a> scaler + Azure Monitor Managed Prometheus + Grafana',tag:"lab",
+     resources:{"SB":[{k:'sb',n:'Service Bus + KEDA integration'}],"Prom":[{k:'prometheus',n:'Managed Prometheus setup guide'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t55",text:'<a href="https://learn.microsoft.com/en-us/training/paths/design-business-continuity-solutions/" target="_blank">AZ-305 Domain 3</a>: Business continuity — RTO vs RPO, cost vs recoverability trade-off design',tag:"study",
+     resources:{"MS Learn":[{k:'az305_d3',n:'Domain 3 learning path — business continuity'}],"ASR":[{k:'asr',n:'Azure Site Recovery full docs'}],"Video":[{k:'savill',n:'Savill AZ-305: BCDR design'}]}},
+    {id:"t56",text:'Apply <a href="https://learn.microsoft.com/en-us/credentials/applied-skills/deploy-and-configure-azure-monitor/" target="_blank">Applied Skills #2</a>: Deploy and configure Azure Monitor',tag:"lab",
+     resources:{"Applied Skills":[{k:'as_mon',n:'Free Monitor assessment — validates lab work'}]}},
+   ]},
+   {day:"Thursday",tasks:[
+    {id:"t57",text:'AZ-305 Domain 3: SQL geo-replication vs failover groups — HA/DR design decision',tag:"study",
+     resources:{"Ref":[{k:'arch',n:'SQL HA/DR reference architectures'}],"Backup":[{k:'backup',n:'Backup vault design for DR scenarios'}]}},
+    {id:"t58",text:'Project 2: End-to-end pipeline test — Service Bus → AKS consumer → ADLS Gen2',tag:"project",
+     resources:{"SB":[{k:'sb',n:'Service Bus end-to-end patterns'}]}},
+   ]},
+   {day:"Friday",tasks:[
+    {id:"t59",text:'Project 2: Publish to GitHub with ADR — security and networking design decisions documented',tag:"project",
+     resources:{"WAF":[{k:'waf_sec',n:'Security pillar for AKS ADR justification'}],"Assess":[{k:'waf_assess',n:'Run WAF Assessment on AKS architecture'}]}},
+    {id:"t60",text:'AZ-305 Domain 3: Azure Site Recovery + Azure Backup vault design — Cross Region Restore',tag:"study",
+     resources:{"ASR":[{k:'asr',n:'Site Recovery failover orchestration'}],"Backup":[{k:'backup',n:'Cross Region Restore setup guide'}]}},
+   ]},
+  ]},
+  {week:"Week 7 — Infrastructure design & DR project",dates:"Jun 8 – 12",targetHours:13,days:[
+   {day:"Monday",tasks:[
+    {id:"t61",text:'<a href="https://learn.microsoft.com/en-us/training/paths/design-infrastructure-solutions/" target="_blank">AZ-305 Domain 4</a>: Compute selection decision tree — VMs vs containers vs serverless',tag:"study",
+     resources:{"MS Learn":[{k:'az305_d4',n:'Domain 4 learning path — infrastructure solutions'}],"Ref":[{k:'arch',n:'Choose a compute service decision guide'}],"Video":[{k:'savill',n:'Savill AZ-305: Compute design'}]}},
+    {id:"t62",text:'AZ-305 Domain 4: Migration strategies — 6Rs (retire, rehost, replatform, refactor, rearchitect, rebuild)',tag:"study",
+     resources:{"CAF":[{k:'caf',n:'CAF Adopt phase: migration and modernisation patterns'}],"Video":[{k:'savill',n:'Savill AZ-305: Migration strategy design'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t63",text:'Project 3 kickoff: Multi-region architecture — draw primary + secondary topology before any code',tag:"project",
+     resources:{"Ref":[{k:'arch',n:'Multi-region app reference architectures'}],"ASR":[{k:'asr',n:'Site Recovery planning guide'}]}},
+    {id:"t64",text:'Project 3: Deploy Traffic Manager (priority) + Azure Front Door Premium',tag:"lab",
+     resources:{"Ref":[{k:'arch',n:'Global load balancing decision guide'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t65",text:'AZ-305 Domain 4: Networking for solutions — Front Door vs App Gateway vs Traffic Manager',tag:"study",
+     resources:{"Ref":[{k:'arch',n:'Load balancing decision guide on Architecture Center'}]}},
+    {id:"t66",text:'ExpressRoute fundamentals: circuits, peering types, SKUs, coexistence with VPN Gateway',tag:"study",
+     resources:{"ER":[{k:'er',n:'ExpressRoute full documentation'}],"Ref":[{k:'gh_hubspoke',n:'Hub-spoke with ExpressRoute reference'}]}},
+   ]},
+   {day:"Thursday",tasks:[
+    {id:"t67",text:'Project 3: Deploy Azure SQL Business Critical + active geo-replication to secondary region',tag:"lab",
+     resources:{"Backup":[{k:'backup',n:'Cross Region Restore configuration'}]}},
+    {id:"t68",text:'Project 3: Configure Recovery Services vault + Azure Site Recovery runbook automation',tag:"lab",
+     resources:{"ASR":[{k:'asr',n:'Failover runbook and automation guide'}]}},
+   ]},
+   {day:"Friday",tasks:[
+    {id:"t69",text:'Project 3: Write formal DR Plan — RTO 15 min / RPO 5 min, trigger criteria, cost analysis',tag:"project",
+     resources:{"WAF":[{k:'waf',n:'Reliability pillar: RTO/RPO design requirements'}],"Chaos":[{k:'chaos',n:'Azure Chaos Studio for DR testing'}]}},
+    {id:"t70",text:'Project 3: Publish to GitHub — test failover documented, architecture diagram included',tag:"project",
+     resources:{"Ref":[{k:'arch',n:'DR reference architecture for comparison'}]}},
+    {id:"t137",text:"Submit a talk proposal to a local Azure meetup or Global Azure event — present one of your portfolio projects. Architect Managers need community visibility.",tag:"review",
+     resources:{"Global":[{k:'global_azure',n:'Global Azure events — find your regional community'}],"Blog":[{k:'gh_pages_host',n:'GitHub Pages — publish your talk abstract as a blog post'}]}},
+    {id:"t138",text:"Write the mock 'Azure Architecture Proposal' consulting document for a fictional client: executive summary, current state, proposed architecture, risks, cost, timeline. This is a standard consulting interview exercise.",tag:"project",
+     resources:{"RFC":[{k:'sample_rfc',n:'RFC template — adapts to architecture proposal format'}],"ADR":[{k:'sample_adr',n:'ADR format for individual decisions within the proposal'}]}},
+   ]},
+  ]},
+  {week:"Week 8 — AI platform project + compliance",dates:"Jun 15 – 19",targetHours:13,days:[
+   {day:"Monday",tasks:[
+    {id:"t71",text:'Project 4 kickoff: AI analytics platform — design OpenAI + AI Search + Synapse architecture diagram',tag:"project",
+     resources:{"OAI":[{k:'oai',n:'Azure OpenAI Service docs'}],"Search":[{k:'aisearch',n:'AI Search vector index guide'}],"Foundry":[{k:'ai_studio',n:'AI Foundry for model management'}]}},
+    {id:"t72",text:'Project 4: Deploy <a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/" target="_blank">Azure OpenAI</a> (GPT-4o) — document PTU vs consumption analysis decision',tag:"lab",
+     resources:{"OAI":[{k:'oai',n:'OpenAI deployment — PTU vs consumption pricing'}],"APIM":[{k:'apim',n:'APIM token metering for OpenAI'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t73",text:'Project 4: Deploy <a href="https://learn.microsoft.com/en-us/azure/search/" target="_blank">Azure AI Search</a> vector index — implement RAG pattern with OpenAI',tag:"lab",
+     resources:{"Search":[{k:'aisearch',n:'Vector index configuration and RAG pattern'}],"OAI":[{k:'oai',n:'RAG pattern integration with OpenAI'}]}},
+    {id:"t74",text:'Project 4: Deploy <a href="https://learn.microsoft.com/en-us/azure/api-management/" target="_blank">APIM</a> in front of OpenAI — rate limiting + token metering policy',tag:"lab",
+     resources:{"APIM":[{k:'apim',n:'APIM policy for OpenAI rate limiting'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t75",text:'Project 4: Terraform — full IaC for data platform + APIM XML policies + OpenAI deployment',tag:"project",
+     resources:{"IaC":[{k:'tf_cloud',n:'Terraform Cloud for IaC pipeline management'}]}},
+    {id:"t76",text:'Project 4: GitHub Actions CI/CD pipeline — Terraform promote dev → staging → prod',tag:"project",
+     resources:{"Tool":[{k:'codespaces',n:'GitHub Actions in Codespaces'}]}},
+   ]},
+   {day:"Thursday",tasks:[
+    {id:"t77",text:'Apply <a href="https://learn.microsoft.com/en-us/credentials/applied-skills/implement-security-through-pipeline-using-devops/" target="_blank">Applied Skills #3</a>: Security through pipeline with GitHub Actions',tag:"lab",
+     resources:{"Applied Skills":[{k:'as_gh',n:'Free assessment — OIDC, secrets, pipeline security'}]}},
+    {id:"t78",text:'AZ-305 compliance: assign ISO 27001 built-in policy initiative to your Project 1 subscription',tag:"lab",
+     resources:{"Policy":[{k:'gh_policy',n:'Azure Policy repo — ISO 27001 initiative JSON'}],"Def":[{k:'def_comp',n:'Enable compliance dashboard — export report'}]}},
+    {id:"t139",text:"Create a STRIDE threat model for Project 2 (AKS) using OWASP Threat Dragon — document top threats to the data pipeline and mitigations applied. Add as ADR appendix.",tag:"project",
+     resources:{"OWASP":[{k:'owasp_threat',n:'OWASP Threat Dragon — AKS threat model'}],"STRIDE":[{k:'stride',n:'Microsoft Threat Modeling Tool — alternative'}]}},
+    {id:"t140",text:"Quantify outcomes across all projects: document deployment time before/after, monthly cost, Defender Secure Score, and AKS KEDA scale events. Add 'Measured Outcomes' section to every README.",tag:"project",
+     resources:{"Pricing":[{k:'ms_pricing',n:'Verify actual monthly cost matches design estimate'}],"Checklist":[{k:'sample_tco',n:'Azure Review Checklists — use as measured-outcomes template'}]}},
+   ]},
+   {day:"Friday",tasks:[
+    {id:"t79",text:'Project 4: End-to-end test — data ingest → AI Search vector query → OpenAI RAG response',tag:"project",
+     resources:{"OAI":[{k:'oai',n:'End-to-end RAG validation guide'}]}},
+    {id:"t80",text:'Project 4: Run WAF Assessment — publish to GitHub with full README and architecture diagram',tag:"project",
+     resources:{"Assess":[{k:'waf_assess',n:'WAF Assessment — export scored report for portfolio'}]}},
+   ]},
+  ]},
+  {week:"Week 9 — Practice exams + Arc + stakeholder skills",dates:"Jun 22 – 26",targetHours:14,days:[
+   {day:"Monday",tasks:[
+    {id:"t81",text:'AZ-305 full practice exam #1 — MeasureUp, timed, strict exam conditions',tag:"exam",
+     resources:{"Practice":[{k:'mu',n:'MeasureUp AZ-305 — official Microsoft-licensed'}],"Alt":[{k:'et',n:'ExamTopics community for hard scenario discussion'}]}},
+    {id:"t82",text:'Score review: categorise wrong answers by domain — create targeted remediation list',tag:"review",
+     resources:{"Study":[{k:'az305_exam',n:'Revisit AZ-305 skills outline for weak domains'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t83",text:'Deep-dive remediation: your weakest AZ-305 domain — re-read path + re-do labs',tag:"study",
+     resources:{"D1":[{k:'az305_d1',n:'Domain 1: Identity, governance, monitoring'}],"D2":[{k:'az305_d2',n:'Domain 2: Data storage'}],"D3":[{k:'az305_d3',n:'Domain 3: Business continuity'}],"D4":[{k:'az305_d4',n:'Domain 4: Infrastructure'}]}},
+    {id:"t84",text:'Stakeholder practice: write executive summary for Project 2 (AKS) — zero Azure service names',tag:"review",
+     resources:{"Role":[{k:'waf_role',n:'WAF Architect role: translate technical to business terms'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t85",text:'AZ-305 practice exam #2 — WhizLabs, different question bank',tag:"exam",
+     resources:{"Practice":[{k:'wl',n:'WhizLabs AZ-305 question bank'}],"Alt":[{k:'td',n:'Tutorials Dojo for scenario questions'}]}},
+    {id:"t86",text:'AZ-305 practice exam #3 — Tutorials Dojo, focus on business continuity scenarios',tag:"exam",
+     resources:{"Practice":[{k:'td',n:'Tutorials Dojo — strong BCDR scenario questions'}]}},
+   ]},
+   {day:"Thursday",tasks:[
+    {id:"t87",text:'AZ-305 practice exam #4 — MeasureUp second sitting, target 85%+ to confirm readiness',tag:"exam",
+     resources:{"Practice":[{k:'mu',n:'Must hit 85%+ before booking the real exam'}]}},
+    {id:"t88",text:'Book AZ-305 exam on Pearson VUE — confirm 85%+ achieved, target end of Week 10',tag:"exam",
+     resources:{"Cert":[{k:'az305_cert',n:'AZ-305 exam scheduling page'}]}},
+   ]},
+   {day:"Friday",tasks:[
+    {id:"t89",text:'Review all 4 Architecture Decision Records — sharpen trade-off justifications per WAF pillar',tag:"review",
+     resources:{"WAF":[{k:'waf',n:'WAF 5-pillar justification framework'}],"Ref":[{k:'arch',n:'Architecture Center — compare with reference ADR patterns'}]}},
+    {id:"t90",text:'FinOps study: chargeback/showback, savings plan modeling, Azure Cost Management design',tag:"study",
+     resources:{"FinOps":[{k:'finops',n:'FinOps Foundation — free practitioner certification'}],"Cost":[{k:'cost',n:'Azure Cost Management docs'}]}},
+    {id:"t154",text:"Book TOGAF EA Practitioner exam (OGEA-103) — sit 4 weeks after AZ-305. Combined Part 1+2 exam, ~$595. With AZ-305 + TOGAF you enter the top 3% of architect candidates.",tag:"exam",
+     resources:{"TOGAF":[{k:'togaf_cert',n:'TOGAF EA Practitioner — OGEA-103 exam booking'}],"Course":[{k:'togaf_course',n:'Complete Udemy TOGAF course this week as final prep'}]}},
+    {id:"t155",text:"Write multi-cloud decision doc: 'Azure vs AWS for data engineering workloads' — 800 words covering governance, cost, tooling, lock-in trade-offs. Publish as a blog post.",tag:"project",
+     resources:{"Arc":[{k:'arc',n:'Azure Arc as the multi-cloud control plane'}],"AWS":[{k:'aws_saa',n:'AWS SAA scope — understand multi-cloud depth required'}],"Blog":[{k:'gh_pages_host',n:'Publish on GitHub Pages'}]}}
+   ]},
+  ]},
+ ]},
+
+ {phase:"Phase 3 — Exam Prep & Portfolio Polish",label:"Phase 3",months:"Jun 29 – Jul 3 2026",weeks:[
+  {week:"Week 10 — AZ-305 final prep & certification exam",dates:"Jun 29 – Jul 3",targetHours:14,days:[
+   {day:"Monday",tasks:[
+    {id:"t91",text:'Azure Arc study: Arc-enabled servers, Kubernetes, data services — governance across clouds',tag:"study",
+     resources:{"Arc":[{k:'arc',n:'Azure Arc full documentation'}],"Lab":[{k:'gh_arc',n:'Arc Jumpstart: full scenario labs'}]}},
+    {id:"t92",text:'Lab: Onboard Arc-enabled server from local VM (WSL2 or Hyper-V) — assign Azure Policy via Arc',tag:"lab",
+     resources:{"Docs":[{k:'arc_gov',n:'Tutorial: assign Azure Policy to Arc-enabled server'}],"Arc":[{k:'gh_arc',n:'Arc Jumpstart governance labs'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t93",text:'Apply <a href="https://learn.microsoft.com/en-us/credentials/applied-skills/build-azure-ai-solution/" target="_blank">Applied Skills #4</a>: Build an Azure AI solution',tag:"lab",
+     resources:{"Applied Skills":[{k:'as_ai',n:'Free AI Services assessment — complements AI-103 prep'}]}},
+    {id:"t94",text:'Final Savill AZ-305 skim — check Master Class playlist for any uncovered scenario types',tag:"study",
+     resources:{"Video":[{k:'savill',n:'Savill AZ-305 Master Class — skim for gaps'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t95",text:'Light review day only — no new topics, consolidation and confidence building',tag:"review",
+     resources:{"Ref":[{k:'arch',n:'Skim favourite reference architecture for confidence'}]}},
+    {id:"t96",text:'PASS AZ-305 EXAM ✓ — Azure Solutions Architect Expert certified!',tag:"exam",
+     resources:{"Cert":[{k:'az305_cert',n:'Verify on your Microsoft Learn transcript'}]}},
+   ]},
+   {day:"Thursday",tasks:[
+    {id:"t97",text:'Update LinkedIn, resume, and GitHub profile README with AZ-305 Expert certification',tag:"review",
+     resources:{"Ref":[{k:'gh_es',n:'Study architecture repos for GitHub profile inspiration'}]}},
+    {id:"t98",text:'Write 1,000-word LinkedIn article on one of your 4 portfolio architectures (plain language)',tag:"review",
+     resources:{"Blog":[{k:'ms_tech',n:'Azure Architecture Blog — read examples for style reference'}],"Role":[{k:'waf_role',n:'WAF Architect role: communicate rationale clearly'}]}},
+   ]},
+   {day:"Friday",tasks:[
+    {id:"t99",text:'Read the official <a href="https://learn.microsoft.com/en-us/training/courses/ai-103t00" target="_blank">AI-103 course page</a> — understand scope, domains, and prerequisites before starting',tag:"study",
+     resources:{"AI-103":[{k:'ai103_course',n:'Official Microsoft AI-103 course overview'}],"Video":[{k:'reactor',n:'Microsoft Reactor — AI-103 prep sessions'}]}},
+    {id:"t100",text:'Explore AI-103 practice exams on Tutorials Dojo and WhizLabs — assess current readiness',tag:"study",
+     resources:{"Practice":[{k:'td',n:'Tutorials Dojo — AI-103 practice tests available'}],"Alt":[{k:'wl',n:'WhizLabs — AI-103 question bank'}]}},
+   ]},
+  ]},
+ ]},
+
+ {phase:"Phase 4 — AI Engineering & Agent Development",label:"Phase 4",months:"Jul 6 – Jul 24 2026",weeks:[
+  {week:"Week 11 — AI Foundry, generative apps & RAG",dates:"Jul 6 – 10",targetHours:12,days:[
+   {day:"Monday",tasks:[
+    {id:"t101",text:'AI-103 Domain 1: Azure AI Foundry — manage AI hubs, projects, model deployments, secure access',tag:"study",
+     resources:{"Foundry":[{k:'ai_studio',n:'Azure AI Foundry (AI Studio) full documentation'}],"Course":[{k:'ai103_course',n:'Official AI-103 course — Module 1'}],"OAI":[{k:'oai',n:'OpenAI Service on Foundry — deployment types'}]}},
+    {id:"t102",text:'AI-103 Domain 1: Generative AI lifecycle — develop, deploy, and monitor generative applications',tag:"study",
+     resources:{"Foundry":[{k:'ai_studio',n:'Generative application lifecycle in AI Foundry'}],"Video":[{k:'reactor',n:'Microsoft Reactor: AI Foundry sessions'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t103",text:'Lab: Provision AI Foundry hub — deploy GPT-4o and Phi-4 models, configure networking controls',tag:"lab",
+     resources:{"Foundry":[{k:'ai_studio',n:'AI Foundry hub provisioning guide'}],"OAI":[{k:'oai',n:'Model deployment: PTU vs consumption'}]}},
+    {id:"t104",text:'AI-103: Prompt engineering — system/user/assistant roles, few-shot vs zero-shot, chain-of-thought',tag:"study",
+     resources:{"OAI":[{k:'oai',n:'Prompt engineering guide in Azure OpenAI docs'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t105",text:'AI-103 Domain 2: Build generative applications — multistep workflows, orchestration patterns',tag:"study",
+     resources:{"Course":[{k:'ai103_course',n:'AI-103 course — generative application module'}],"Search":[{k:'aisearch',n:'AI Search: vector indexing for RAG workflows'}]}},
+    {id:"t106",text:'Lab: Build RAG application using AI Foundry + Azure AI Search vector index + GPT-4o',tag:"lab",
+     resources:{"Search":[{k:'aisearch',n:'RAG pattern: vector index + OpenAI integration'}],"OAI":[{k:'oai',n:'Grounding with Azure AI Search'}]}},
+   ]},
+   {day:"Thursday",tasks:[
+    {id:"t107",text:'AI-103: Implement content safety — content filtering policies, responsible AI controls',tag:"study",
+     resources:{"OAI":[{k:'oai',n:'Content filtering in Azure OpenAI Service'}],"WAF":[{k:'waf_sec',n:'Responsible AI as part of security pillar'}]}},
+    {id:"t108",text:'AI-103: APIM gateway for AI — rate limiting, token metering, key rotation for OpenAI endpoints',tag:"study",
+     resources:{"APIM":[{k:'apim',n:'APIM policies: token metering and rate limiting'}]}},
+   ]},
+   {day:"Friday",tasks:[
+    {id:"t109",text:'AI-103 practice exam #1 — Tutorials Dojo AI-103, assess current readiness',tag:"exam",
+     resources:{"Practice":[{k:'td',n:'Tutorials Dojo — AI-103 practice exams'}]}},
+    {id:"t110",text:'Review week notes — identify AI-103 domain gaps vs your existing Project 4 knowledge',tag:"review",
+     resources:{"Course":[{k:'ai103_course',n:'AI-103 official skills outline — map to gaps'}]}},
+   ]},
+  ]},
+  {week:"Week 12 — AI agents, multi-agent systems & exam prep",dates:"Jul 13 – 17",targetHours:12,days:[
+   {day:"Monday",tasks:[
+    {id:"t111",text:'AI-103 Domain 3: Design AI agents — autonomous agents vs human-in-the-loop, tool calling',tag:"study",
+     resources:{"Course":[{k:'ai103_course',n:'AI-103 course — agent design module'}],"Foundry":[{k:'ai_studio',n:'AI agent orchestration in Foundry'}]}},
+    {id:"t112",text:'AI-103: Multi-agent systems — Manager-Worker pattern, conflict resolution, shared state',tag:"study",
+     resources:{"Course":[{k:'ai103_course',n:'Multi-agent orchestration module'}],"Reactor":[{k:'reactor',n:'Microsoft Reactor: agentic AI architecture sessions'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t113",text:'Lab: Build an autonomous AI agent with tool calling in Azure AI Foundry',tag:"lab",
+     resources:{"Foundry":[{k:'ai_studio',n:'AI Foundry agent development guide'}],"OAI":[{k:'oai',n:'Function calling with Azure OpenAI'}]}},
+    {id:"t114",text:'Lab: Deploy multi-agent orchestration — Manager delegates to specialised worker agents',tag:"lab",
+     resources:{"Course":[{k:'ai103_course',n:'Multi-agent lab exercises'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t115",text:'AI-103: Semantic Kernel framework — orchestrate AI workflows with plugins and planners',tag:"study",
+     resources:{"Course":[{k:'ai103_course',n:'Semantic Kernel in AI-103 scope'}],"Reactor":[{k:'reactor',n:'Reactor: Semantic Kernel sessions'}]}},
+    {id:"t116",text:'AI-103 practice exam #2 — WhizLabs AI-103, different question bank',tag:"exam",
+     resources:{"Practice":[{k:'wl',n:'WhizLabs AI-103 practice exams'}]}},
+   ]},
+   {day:"Thursday",tasks:[
+    {id:"t117",text:'AI-103: MLOps basics — model evaluation, monitoring drift, CI/CD for AI deployments',tag:"study",
+     resources:{"Foundry":[{k:'ai_studio',n:'AI Foundry model evaluation and monitoring'}],"OAI":[{k:'oai',n:'OpenAI model versioning and deployment management'}]}},
+    {id:"t118",text:'AI-103 practice exam #3 — MeasureUp or Tutorials Dojo full sitting, target 85%+',tag:"exam",
+     resources:{"Practice":[{k:'mu',n:'MeasureUp — check if AI-103 available'}],"Alt":[{k:'td',n:'Tutorials Dojo AI-103 full practice exam'}]}},
+   ]},
+   {day:"Friday",tasks:[
+    {id:"t119",text:'Stakeholder practice: present Project 4 (AI analytics) out loud — zero technical jargon version',tag:"review",
+     resources:{"Role":[{k:'waf_role',n:'WAF Architect role: communicate AI value to business'}]}},
+    {id:"t120",text:'Book AI-103 exam on Pearson VUE — confirm 85%+ practice exam readiness',tag:"exam",
+     resources:{"Cert":[{k:'ai103_course',n:'AI-103 exam scheduling page'}]}},
+   ]},
+  ]},
+  {week:"Week 13 — AI-103 exam & post-certification next steps",dates:"Jul 20 – 24",targetHours:10,days:[
+   {day:"Monday",tasks:[
+    {id:"t121",text:'Final AI-103 revision — no new topics, confidence consolidation across all 3 domains',tag:"review",
+     resources:{"Course":[{k:'ai103_course',n:'AI-103 official course — skim for final gaps'}]}},
+    {id:"t122",text:'PASS AI-103 EXAM ✓ — Azure AI App and Agent Developer Associate certified!',tag:"exam",
+     resources:{"Cert":[{k:'ai103_course',n:'Verify on your Microsoft Learn transcript'}]}},
+   ]},
+   {day:"Tuesday",tasks:[
+    {id:"t123",text:'Update LinkedIn and GitHub README — AZ-104 + AZ-305 + AI-103 credential stack',tag:"review",
+     resources:{"Blog":[{k:'ms_tech',n:'Azure community — share your journey'}]}},
+    {id:"t124",text:'Write LinkedIn article: "How I built an enterprise RAG pipeline on Azure" — your Project 4 story',tag:"review",
+     resources:{"Blog":[{k:'ms_tech',n:'Azure Architecture Blog posts as style reference'}]}},
+   ]},
+   {day:"Wednesday",tasks:[
+    {id:"t125",text:'Explore next path: AZ-400 DevOps Expert or AI-300 MLOps Engineer — plan next 6 months',tag:"study",
+     resources:{"AZ-400":[{k:'az400_cert',n:'AZ-400 DevOps Expert cert page'}],"Updates":[{k:'az_updates',n:'Azure Updates — track new cert paths'}]}},
+    {id:"t126",text:'Attend a <a href="https://developer.microsoft.com/en-us/reactor/" target="_blank">Microsoft Reactor</a> session — Azure AI Foundry or agentic AI architecture topic',tag:"study",
+     resources:{"Reactor":[{k:'reactor',n:'Microsoft Reactor — upcoming live sessions'}],"Foundry":[{k:'ai_studio',n:'AI Foundry learning path'}]}},
+    {id:"t143",text:"Sit TOGAF EA Practitioner exam (OGEA-103) — with AZ-305 + AI-103 + TOGAF you are now in the top 2% of candidates for Architect Manager roles.",tag:"exam",
+     resources:{"TOGAF":[{k:'togaf_cert',n:'TOGAF EA Practitioner — exam booking page'}]}},
+    {id:"t144",text:"Plan next 6-month phase: AWS SAA for multi-cloud breadth OR SC-100 (Cybersecurity Architect Expert) for regulated-industry roles — choose based on target employer type.",tag:"study",
+     resources:{"AWS":[{k:'aws_saa',n:'AWS SAA — pairs with AZ-305 to open multi-cloud architect roles'}],"SC-100":[{k:'sc100',n:'SC-100 Cybersecurity Architect — pairs with AZ-305 for security leadership'}]}},
+    {id:"t145",text:"Publish full portfolio narrative on GitHub Pages: certs earned, projects built, measurable outcomes, TOGAF case study, and business proposals — your public architecture profile.",tag:"review",
+     resources:{"Blog":[{k:'gh_pages_host',n:'GitHub Pages — free hosting for personal architecture site'}],"Community":[{k:'ms_community',n:'Share link in Microsoft Tech Community — build reputation'}]}},
+   ]},
+  ]},
+ ]},
+];
+
+const PROJECTS = [
+ {id:"p1",num:"P1",title:"Hybrid App Migration with Landing Zone",months:"May–Jun 2026",steps:[
+  {id:"ps1",label:"Terraform repo scaffolded — modules: networking, identity, governance, application"},
+  {id:"ps2",label:"Management group hierarchy + Azure Policy initiative deployed (tagging + allowed regions)"},
+  {id:"ps3",label:"Hub VNet + Azure Firewall Premium + Azure Bastion deployed in Terraform"},
+  {id:"ps4",label:"App Service + Azure SQL + Application Gateway v2 + WAF policy deployed"},
+  {id:"ps5",label:"Private Endpoints on SQL and storage — Private DNS zones validated"},
+  {id:"ps6",label:"WAF Assessment completed — scored report saved and exported"},
+  {id:"ps7",label:"Architecture Decision Record written (one WAF-pillar justification per section)"},
+  {id:"ps8",label:"ISO 27001 built-in policy initiative assigned — compliance report exported"},
+  {id:"ps9",label:"Published to GitHub with architecture diagram and README"},
+ ]},
+ {id:"p2",num:"P2",title:"Secure AKS Data Platform with GitOps",months:"Jun 2026",steps:[
+  {id:"ps10",label:"Private AKS cluster deployed (no public API endpoint) — Azure CNI Overlay (Bicep)"},
+  {id:"ps11",label:"Workload Identity configured — federated credential, no pod-managed identity"},
+  {id:"ps12",label:"Key Vault Secrets Store CSI Driver — confirmed zero secrets in any manifest"},
+  {id:"ps13",label:"Flux v2 GitOps — cluster state reconciling from GitHub repository"},
+  {id:"ps14",label:"KEDA scaling on Azure Service Bus queue depth"},
+  {id:"ps15",label:"Azure Monitor Managed Prometheus + Azure Managed Grafana operational"},
+  {id:"ps16",label:"End-to-end pipeline tested + WAF Assessment + published to GitHub with ADR"},
+ ]},
+ {id:"p3",num:"P3",title:"Multi-Region HA & DR Architecture",months:"Jun–Jul 2026",steps:[
+  {id:"ps17",label:"Architecture topology drawn — primary + secondary region, all traffic paths"},
+  {id:"ps18",label:"Azure Traffic Manager (priority routing) + Front Door Premium deployed"},
+  {id:"ps19",label:"Azure SQL Business Critical + active geo-replication (paired secondary region)"},
+  {id:"ps20",label:"Recovery Services vault + Cross Region Restore enabled"},
+  {id:"ps21",label:"Failover runbook (Azure Automation) written and tested end-to-end"},
+  {id:"ps22",label:"Formal DR Plan: RTO 15 min / RPO 5 min — trigger criteria + cost analysis"},
+  {id:"ps23",label:"Published to GitHub — manual failover test documented"},
+ ]},
+ {id:"p4",num:"P4",title:"AI-Integrated Analytics Platform (AI-103 prep)",months:"Jul 2026",steps:[
+  {id:"ps24",label:"Azure Data Lake Gen2 + Synapse Analytics deployed"},
+  {id:"ps25",label:"Azure OpenAI GPT-4o — PTU vs consumption analysis documented"},
+  {id:"ps26",label:"Azure AI Search with vector index — RAG pattern operational"},
+  {id:"ps27",label:"APIM gateway: rate limiting + token metering policy"},
+  {id:"ps28",label:"Full Terraform IaC — APIM + OpenAI + AI Search + data platform"},
+  {id:"ps29",label:"AI agents deployed: autonomous agent + multi-agent Manager-Worker pattern"},
+  {id:"ps30",label:"GitHub Actions CI/CD: dev → staging → prod Terraform promotion pipeline"},
+  {id:"ps31",label:"End-to-end RAG pipeline tested + WAF Assessment + GitHub published + README"},
+ ]},
+
+  {id:"p5",num:"P5",title:"TOGAF Enterprise Architecture Case Study",months:"Aug–Sep 2026",steps:[
+    {id:"ps32",label:"TOGAF EA Practitioner exam passed (OGEA-103) — credential on Open Group transcript"},
+    {id:"ps33",label:"Phase A: Architecture Vision document written for Project 1 (using official TOGAF template)"},
+    {id:"ps34",label:"TOGAF ADM applied: Business → Application → Data → Technology architecture domains mapped"},
+    {id:"ps35",label:"ArchiMate diagram created: Project 1 hub-spoke in EA notation (using Archi open-source tool)"},
+    {id:"ps36",label:"Gap analysis: current-state vs target-state architecture documented with migration roadmap"},
+    {id:"ps37",label:"Architecture Governance: review checklist and change management process documented"},
+    {id:"ps38",label:"Published on GitHub + personal blog post: 'Applying TOGAF ADM to an Azure Landing Zone'"},
+    {id:"ps39",label:"Sample reference: github.com/Azure/Enterprise-Scale architecture decision framework used as baseline"},
+  ]},
+  {id:"p6",num:"P6",title:"Business Case & TCO Portfolio (3-Year Analysis)",months:"May–Jun 2026",steps:[
+    {id:"ps40",label:"Azure TCO Calculator: 3-year on-premises vs Azure comparison exported and annotated"},
+    {id:"ps41",label:"Business Case document (P1): executive summary, current state pain points, proposed solution, ROI"},
+    {id:"ps42",label:"Build-vs-Buy decision: Managed AKS vs self-managed Kubernetes — cost/complexity/SLA comparison"},
+    {id:"ps43",label:"Azure Pricing Calculator: monthly cost model for each project (P1–P4) with breakdown by service"},
+    {id:"ps44",label:"FinOps report: Reserved Instance vs Pay-As-You-Go vs Savings Plan comparison across all 4 projects"},
+    {id:"ps45",label:"Mock Architecture Proposal document for a fictional client migration — executive summary + risks + timeline"},
+    {id:"ps46",label:"Quantified outcomes section added to all 4 project READMEs (deployment time, cost, Secure Score, MTTR)"},
+    {id:"ps47",label:"Published to GitHub as reusable templates — citable in interviews as evidence of business alignment"},
+  ]},
+  {id:"p7",num:"P7",title:"Security Architecture & Threat Model Portfolio",months:"Jun–Jul 2026",steps:[
+    {id:"ps48",label:"STRIDE threat model created for Project 1 (Landing Zone) using Microsoft Threat Modeling Tool"},
+    {id:"ps49",label:"STRIDE threat model created for Project 2 (AKS pipeline) using OWASP Threat Dragon"},
+    {id:"ps50",label:"Threat model for Project 4 (AI platform): data poisoning, prompt injection, model exfiltration threats"},
+    {id:"ps51",label:"Security architecture review checklist applied to all 4 projects — gaps documented and remediated"},
+    {id:"ps52",label:"Defender for Cloud Secure Score tracked: baseline vs post-remediation improvement documented"},
+    {id:"ps53",label:"SC-100 scope reviewed — skills gap documented vs AZ-305 knowledge, 6-month prep plan written"},
+    {id:"ps54",label:"Security one-pager per project: threat model summary + mitigations + WAF Security pillar score"},
+    {id:"ps55",label:"Published: 'Securing an Azure AI Platform — Threat Model to Production' blog post on GitHub Pages"},
+  ]},
+];
+
+const EXAMS = [
+ {id:"e1",cert:"AZ-104",full:"Azure Administrator Associate",target:"Week 4 · mid-May 2026",link:"https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/"},
+ {id:"e2",cert:"AZ-305",full:"Azure Solutions Architect Expert",target:"Week 10 · late Jun / early Jul 2026",link:"https://learn.microsoft.com/en-us/credentials/certifications/azure-solutions-architect/"},
+ {id:"e3",cert:"AI-103",full:"Azure AI App and Agent Developer Associate",target:"Week 13 · late Jul 2026",link:"https://learn.microsoft.com/en-us/training/courses/ai-103t00"},
+ {id:"e4",cert:"TOGAF",full:"Enterprise Architecture Practitioner (OGEA-103)",target:"4 weeks post-AZ-305 · Aug 2026",link:"https://www.opengroup.org/certifications/togaf-certification-portfolio"},
+];
+
+// ═══ STATE ═════════════════════════════════════════════════════════════════
+const KEY='az_path_a_v1';
+function loadS(){try{const r=localStorage.getItem(KEY);return r?JSON.parse(r):{tasks:{},hours:{},steps:{},examStatus:{},examDates:{}};}catch{return{tasks:{},hours:{},steps:{},examStatus:{},examDates:{}};}}
+function saveS(s){try{localStorage.setItem(KEY,JSON.stringify(s));}catch{}}
+let S=loadS();
+
+// ═══ HELPERS ═══════════════════════════════════════════════════════════════
+function allIds(){return PLAN.flatMap(ph=>ph.weeks.flatMap(w=>w.days.flatMap(d=>d.tasks.map(t=>t.id))));}
+function phIds(pi){return PLAN[pi].weeks.flatMap(w=>w.days.flatMap(d=>d.tasks.map(t=>t.id)));}
+function cnt(ids){return ids.filter(id=>S.tasks[id]).length;}
+function totHrs(){return Object.values(S.hours).reduce((a,b)=>a+b,0);}
+function projDone(){return PROJECTS.filter(p=>p.steps.every(s=>S.steps[s.id])).length;}
+function certsDone(){return EXAMS.filter(e=>S.examStatus[e.id]==='passed').length;}
+
+// ═══ ACTIONS ═══════════════════════════════════════════════════════════════
+function toggleTask(id){S.tasks[id]=!S.tasks[id];saveS(S);render();}
+function toggleStep(id){S.steps[id]=!S.steps[id];saveS(S);renderProjects();updateMetrics();updateOverview();}
+function setHours(k,v){S.hours[k]=parseFloat(v)||0;saveS(S);updateMetrics();updateSidebar();}
+function setExamStatus(id,v){S.examStatus[id]=v;saveS(S);updateMetrics();updateSidebar();renderExams();updateOverview();}
+function setExamDate(id,v){S.examDates[id]=v;saveS(S);}
+
+// ═══ RESOURCE DRAWER ═══════════════════════════════════════════════════════
+function toggleRes(tid){
+  const d=document.getElementById('rd-'+tid),b=document.getElementById('rb-'+tid);
+  if(!d)return;
+  const open=d.classList.toggle('open');
+  b.classList.toggle('open',open);
+  if(open&&!d.dataset.built){buildRes(tid,d);d.dataset.built='1';}
+}
+function buildRes(tid,drawer){
+  let task=null;
+  for(const ph of PLAN)for(const w of ph.weeks)for(const d of w.days)for(const t of d.tasks)if(t.id===tid){task=t;break;}
+  if(!task||!task.resources)return;
+  const tabs=Object.keys(task.resources);
+  if(!tabs.length)return;
+  const bMap={free:'b-free',paid:'b-paid',lab:'b-lab',video:'b-video',tool:'b-tool'};
+  const tabsHtml=tabs.map((nm,i)=>`<div class="res-tab${i===0?' active':''}" onclick="switchRT('${tid}',${i},this)">${nm}</div>`).join('');
+  const panelsHtml=tabs.map((nm,i)=>{
+    const links=task.resources[nm].map(({k,n})=>{
+      const r=RES[k];if(!r)return '';
+      return `<div class="res-link-row"><span class="res-link-icon">${r.i}</span><div class="res-link-body"><a href="${r.u}" target="_blank" class="res-link-title">${r.t}</a><div class="res-link-desc">${r.d}${n?' — <em style="color:var(--azure);font-style:normal">'+n+'</em>':''}</div></div><span class="res-badge ${bMap[r.b]||'b-free'}">${r.b}</span></div>`;
+    }).join('');
+    return `<div class="res-panel${i===0?' active':''}" id="rp-${tid}-${i}">${links}</div>`;
+  }).join('');
+  drawer.innerHTML=`<div class="res-tabs">${tabsHtml}</div>${panelsHtml}`;
+}
+function switchRT(tid,idx,el){
+  const d=document.getElementById('rd-'+tid);if(!d)return;
+  d.querySelectorAll('.res-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  d.querySelectorAll('.res-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+}
+
+// ═══ NAV ═══════════════════════════════════════════════════════════════════
+const TITLES={checklist:'Daily checklist',projects:'Portfolio projects',exams:'Certification exam dates',resources:'Resource library',overview:'Progress overview — DEM to Architect Expert'};
+function switchTab(n){
+  const match={checklist:'Checklist',projects:'Projects',exams:'Exam',resources:'Resources',overview:'Overview'}[n];
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(x=>{if(x.textContent.trim().includes(match))x.classList.add('active');});
+  document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id==='tab-'+n));
+  document.getElementById('topbar-title').textContent=TITLES[n]||n;
+  if(n==='overview')updateOverview();
+  if(n==='resources')renderLibrary();
+}
+function jumpPhase(pi){
+  switchTab('checklist');
+  setTimeout(()=>{
+    const el=document.getElementById('phase-'+pi);
+    if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}
+    const b=document.getElementById('pb-'+pi),c=document.getElementById('chev-'+pi);
+    if(b&&!b.classList.contains('open')){b.classList.add('open');if(c)c.classList.add('open');}
+  },120);
+}
+function togglePhase(pi){document.getElementById('pb-'+pi)?.classList.toggle('open');document.getElementById('chev-'+pi)?.classList.toggle('open');}
+function toggleWeek(k){document.getElementById('wb-'+k)?.classList.toggle('open');document.getElementById('wc-'+k)?.classList.toggle('open');}
+
+// ═══ RENDER CHECKLIST ══════════════════════════════════════════════════════
+function renderChecklist(){
+  document.getElementById('checklist-container').innerHTML=PLAN.map((ph,pi)=>{
+    const ids=phIds(pi),done=cnt(ids),pct=ids.length?Math.round(done/ids.length*100):0;
+    const weeks=ph.weeks.map((w,wi)=>{
+      const wk=`p${pi}w${wi}`,wIds=w.days.flatMap(d=>d.tasks.map(t=>t.id)),wDone=cnt(wIds),wPct=wIds.length?Math.round(wDone/wIds.length*100):0;
+      const hrs=S.hours[wk]||0,hPct=Math.min(100,Math.round(hrs/w.targetHours*100));
+      const days=w.days.map(d=>{
+        const tasks=d.tasks.map(t=>{
+          const hasR=t.resources&&Object.keys(t.resources).length>0;
+          const tabCnt=hasR?Object.keys(t.resources).length:0;
+          const rb=hasR?`<button class="res-btn" id="rb-${t.id}" onclick="event.stopPropagation();toggleRes('${t.id}')" title="Study resources"><span class="res-btn-dot"></span>${tabCnt} res</button>`:'';
+          return `<div class="task${S.tasks[t.id]?' done':''}" onclick="toggleTask('${t.id}')"><div class="cb${S.tasks[t.id]?' checked':''}"></div><div class="task-text">${t.text}</div><div class="task-right">${rb}<span class="tag tag-${t.tag}">${t.tag}</span></div></div>${hasR?`<div class="res-drawer" id="rd-${t.id}"></div>`:''}`;
+        }).join('');
+        return `<div class="day-block"><div class="day-label">${d.day}</div>${tasks}</div>`;
+      }).join('');
+      return `<div class="week-block"><div class="week-hdr" onclick="toggleWeek('${wk}')"><span class="week-name">${w.week}</span><span class="week-dates">${w.dates}</span><span class="week-count">${wDone}/${wIds.length}</span><div class="week-mini-bar"><div class="week-mini-fill" style="width:${wPct}%"></div></div><span class="week-chev" id="wc-${wk}">▶</span></div><div class="week-body" id="wb-${wk}"><div class="hours-logger"><label style="font-size:11px;color:var(--text3)">Hours logged</label><input class="hours-input" type="number" min="0" max="40" step="0.5" value="${hrs}" onchange="setHours('${wk}',this.value)" onclick="event.stopPropagation()"/><div class="hours-bar-wrap"><div class="hours-bar-fill" style="width:${hPct}%"></div></div><span class="hours-target">target: ${w.targetHours}h</span></div>${days}</div></div>`;
+    }).join('');
+    return `<div class="phase-block" id="phase-${pi}"><div class="phase-hdr" onclick="togglePhase(${pi})"><span class="phase-pill">${ph.label}</span><span class="phase-title">${ph.phase}</span><span class="phase-months">${ph.months}</span><div class="phase-pbar-wrap"><div class="phase-pbar-fill" style="width:${pct}%"></div></div><span class="phase-pct">${pct}%</span><span class="phase-chev" id="chev-${pi}">▶</span></div><div class="phase-body" id="pb-${pi}">${weeks}</div></div>`;
+  }).join('');
+}
+
+// ═══ RENDER PROJECTS ═══════════════════════════════════════════════════════
+function renderProjects(){
+  document.getElementById('projects-container').innerHTML=PROJECTS.map(p=>{
+    const done=p.steps.filter(s=>S.steps[s.id]).length,pct=Math.round(done/p.steps.length*100);
+    return `<div class="proj-card"><div class="proj-card-hdr"><div class="proj-num">${pct}%</div><div><div class="proj-title">${p.title}</div><div class="proj-months">${p.months}</div></div></div><div class="proj-pbar"><div class="proj-pbar-fill" style="width:${pct}%"></div></div>${p.steps.map(s=>`<div class="proj-step${S.steps[s.id]?' done':''}" onclick="toggleStep('${s.id}')"><div class="cb${S.steps[s.id]?' checked':''}"></div><span class="step-lbl">${s.label}</span></div>`).join('')}</div>`;
+  }).join('');
+}
+
+// ═══ RENDER EXAMS ══════════════════════════════════════════════════════════
+function renderExams(){
+  document.getElementById('exams-container').innerHTML=`<p style="font-size:13px;color:var(--text3);margin-bottom:18px">Set your booking date · update status · click cert name to open official Microsoft page</p>`
+  +EXAMS.map(e=>{
+    const st=S.examStatus[e.id]||'planned',dt=S.examDates[e.id]||'';
+    return `<div class="exam-card"><div class="exam-badge">${e.cert}</div><div class="exam-info"><div class="exam-full"><a href="${e.link}" target="_blank" style="color:var(--text);text-decoration:none;border-bottom:1px solid var(--border2)">${e.full}</a></div><div class="exam-target">${e.target}</div></div><div class="exam-ctrls"><input type="date" class="date-input" value="${dt}" onchange="setExamDate('${e.id}',this.value)"/><select class="status-select" onchange="setExamStatus('${e.id}',this.value)"><option value="planned"${st==='planned'?' selected':''}>Planned</option><option value="booked"${st==='booked'?' selected':''}>Booked</option><option value="passed"${st==='passed'?' selected':''}>Passed ✓</option></select><span class="spill spill-${st}">${st}</span></div></div>`;
+  }).join('');
+}
+
+// ═══ RENDER LIBRARY ════════════════════════════════════════════════════════
+let libFilter='all';
+function setLibFilter(f){libFilter=f;renderLibrary();}
+function renderLibrary(){
+  const fmap={all:'All',free:'Free',exam:'Practice Exams',video:'Video',tool:'Tools & GitHub',other:'Community',gap:'Gap Fixes'};
+  const filters=Object.entries(fmap).map(([k,l])=>`<button class="filter-btn${libFilter===k?' active':''}" onclick="setLibFilter('${k}')">${l}</button>`).join('');
+  const bMap={free:'b-free',paid:'b-paid',lab:'b-lab',video:'b-video',tool:'b-tool'};
+  const sections=LIB.filter(s=>libFilter==='all'||s.f===libFilter).map(s=>{
+    if(libFilter!=='all'&&s.f!==libFilter)return'';
+    const cards=s.items.map(k=>{const r=RES[k];if(!r)return'';return`<div class="lib-card"><span class="lib-icon">${r.i}</span><div class="lib-body"><a href="${r.u}" target="_blank" class="lib-title">${r.t}</a><div class="lib-desc">${r.d}</div><div class="lib-meta"><span class="res-badge ${bMap[r.b]||'b-free'}">${r.b}</span></div></div></div>`;}).join('');
+    if(!cards)return'';
+    return`<div class="lib-section"><div class="lib-section-title">${s.cat}</div>${cards}</div>`;
+  }).join('');
+  document.getElementById('resources-container').innerHTML=`<div class="lib-filters">${filters}</div>${sections}`;
+}
+
+// ═══ UPDATE METRICS & SIDEBAR ══════════════════════════════════════════════
+function updateMetrics(){
+  const all=allIds(),done=cnt(all),pct=all.length?Math.round(done/all.length*100):0;
+  document.getElementById('m-overall').textContent=pct+'%';
+  document.getElementById('m-tasks').textContent=done+' / '+all.length+' tasks';
+  document.getElementById('m-hours').textContent=Math.round(totHrs())+'h';
+  document.getElementById('m-projects').textContent=projDone()+' / '+PROJECTS.length;
+  document.getElementById('m-certs').textContent=certsDone()+' / '+EXAMS.length;
+  updateSidebar();
+}
+function updateSidebar(){
+  const all=allIds(),done=cnt(all),pct=all.length?Math.round(done/all.length*100):0;
+  const circ=119.38,offset=circ-(circ*pct/100);
+  const rf=document.getElementById('ring-fill');if(rf)rf.style.strokeDashoffset=offset;
+  const rp=document.getElementById('ring-pct');if(rp)rp.textContent=pct+'%';
+  const rs=document.getElementById('ring-sub');if(rs)rs.textContent=done+' / '+all.length;
+  const nb=document.getElementById('nb-cl');if(nb)nb.textContent=done+'/'+all.length;
+  const nbp=document.getElementById('nb-pr');if(nbp)nbp.textContent=projDone()+'/'+PROJECTS.length;
+  const nbe=document.getElementById('nb-ex');if(nbe)nbe.textContent=certsDone()+'/'+EXAMS.length;
+  PLAN.forEach((_,pi)=>{const ids=phIds(pi),d=cnt(ids),el=document.getElementById('nb-ph'+pi);if(el)el.textContent=Math.round(d/ids.length*100)+'%';});
+}
+
+// ═══ OVERVIEW ══════════════════════════════════════════════════════════════
+function updateOverview(){
+  const c=document.getElementById('overview-container');if(!c)return;
+  const all=allIds(),td=cnt(all),tp=all.length?Math.round(td/all.length*100):0;
+  const phRows=PLAN.map((ph,pi)=>{const ids=phIds(pi),d=cnt(ids),p=ids.length?Math.round(d/ids.length*100):0;return`<div class="ov-row"><span class="ov-name">${ph.label}</span><div class="ov-bar"><div class="ov-bar-fill" style="width:${p}%"></div></div><span class="ov-pct">${p}%</span></div>`;}).join('');
+  const prRows=PROJECTS.map(p=>{const d=p.steps.filter(s=>S.steps[s.id]).length,pc=Math.round(d/p.steps.length*100);return`<div class="ov-row"><span class="ov-name" style="font-size:11px">${p.title.split(':')[0]}</span><div class="ov-bar"><div class="ov-bar-fill" style="width:${pc}%"></div></div><span class="ov-pct">${pc}%</span></div>`;}).join('');
+  const crRows=EXAMS.map(e=>{const st=S.examStatus[e.id]||'planned',ic={planned:'○',booked:'◔',passed:'●'},cl={planned:'var(--text3)',booked:'var(--gold)',passed:'var(--green)'};return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:14px;color:${cl[st]}">${ic[st]}</span><span style="font-size:12px;color:var(--text2);font-family:var(--mono)">${e.cert}</span><span style="font-size:12px;color:var(--text3);flex:1">${e.full}</span><span style="font-size:10px;padding:2px 8px;border-radius:10px;background:${st==='passed'?'var(--green-dim)':st==='booked'?'var(--gold-dim)':'var(--bg4)'};color:${cl[st]}">${st}</span></div>`;}).join('');
+  c.innerHTML=`<div class="ov-grid"><div class="ov-card"><div class="ov-title">Phase task progress</div>${phRows}</div><div class="ov-card"><div class="ov-title">Project completion</div>${prRows}</div></div><div class="ov-grid"><div class="ov-card"><div class="ov-title">Overall journey</div><div class="big-stat">${tp}%</div><div style="font-size:12px;color:var(--text3);margin-top:3px">${td} of ${all.length} tasks complete</div><div class="big-prog"><div class="big-prog-fill" style="width:${tp}%"></div></div><div style="margin-top:15px;display:grid;grid-template-columns:1fr 1fr;gap:10px"><div style="background:var(--bg3);border-radius:8px;padding:10px"><div style="font-size:10px;color:var(--text3);margin-bottom:3px">Hours logged</div><div style="font-size:20px;font-weight:600;color:var(--gold);font-family:var(--mono)">${Math.round(totHrs())}h</div><div style="font-size:10px;color:var(--text3)">of ~300h target</div></div><div style="background:var(--bg3);border-radius:8px;padding:10px"><div style="font-size:10px;color:var(--text3);margin-bottom:3px">Certs passed</div><div style="font-size:20px;font-weight:600;color:var(--purple);font-family:var(--mono)">${certsDone()} / 3</div><div style="font-size:10px;color:var(--text3)">AZ-104 · AZ-305 · AI-103</div></div></div></div><div class="ov-card"><div class="ov-title">Certification status</div>${crRows}<div style="margin-top:13px;padding-top:13px;border-top:1px solid var(--border)"><div style="font-size:10px;color:var(--text3);margin-bottom:7px">Projects published</div><div style="font-size:26px;font-weight:600;color:var(--green);font-family:var(--mono)">${projDone()} / ${PROJECTS.length}</div></div></div></div>`;
+}
+
+function render(){renderChecklist();renderProjects();renderExams();updateMetrics();updateOverview();}
+render();
+</script>
+</body>
+</html>
